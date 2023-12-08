@@ -1,16 +1,17 @@
 import type { AppProps } from "next/app";
-import { ChakraProvider, extendTheme } from "@chakra-ui/react";
+import { appWithTranslation } from "next-i18next";
+import { Roboto } from "next/font/google";
+import { ChakraProvider } from "@chakra-ui/react";
 import Layout from "@/components/Layout";
 import { theme } from "@/styles/theme";
-import { Roboto } from "next/font/google";
 
 // Load NEXT font for chakra ui
 const roboto = Roboto({
-  subsets: ['latin'],
-  weight: '500',
+  subsets: ["latin"],
+  weight: "500",
 });
 
-export default function App({ Component, pageProps }: AppProps) {
+const App = ({ Component, pageProps }: AppProps) => {
   return (
     <>
       <style jsx global>
@@ -27,4 +28,6 @@ export default function App({ Component, pageProps }: AppProps) {
       </ChakraProvider>
     </>
   );
-}
+};
+
+export default appWithTranslation(App);

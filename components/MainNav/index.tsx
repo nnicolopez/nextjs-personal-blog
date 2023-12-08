@@ -1,30 +1,30 @@
 import { Link } from "@chakra-ui/next-js";
+import { cookies } from 'next/headers'
 import {
   Flex,
   List,
   ListItem,
+  Select,
   Switch,
   Text,
   useColorMode,
-  useTheme,
 } from "@chakra-ui/react";
 
 const MainNav = () => {
   const { toggleColorMode, colorMode } = useColorMode();
-  const theme = useTheme();
 
-  console.log(theme);
+  // const handleLanguageChange = (e: React.FormEvent<HTMLSelectElement>) => {
+  //   cookies().set('NEXT_LOCALE', e.currentTarget.value)
+  // }
 
   return (
     <Flex
       as="header"
-      gap={10}
+      gap={5}
       width="100%"
       height={"80px"}
       alignItems={"center"}
       padding={"10px 30px"}
-      // borderBottom={"1px"}
-      // borderColor={"gray.300"}
     >
       <Link href="/">Home</Link>
 
@@ -43,11 +43,18 @@ const MainNav = () => {
         </ListItem>
       </List>
       <Flex display="flex" alignItems="center">
-        <Text my={1} mx={2} textTransform="capitalize">
+        <Text my={1} mr={2} textTransform="capitalize">
           {colorMode} theme
         </Text>
         <Switch id="color-mode" onChange={toggleColorMode} />
       </Flex>
+      <Select
+        width={"auto"}
+        // onChange={handleLanguageChange}
+      >
+        <option value="en-US">EN</option>
+        <option value="es">ES</option>
+      </Select>
     </Flex>
   );
 };

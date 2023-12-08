@@ -1,8 +1,10 @@
 /* eslint-disable react/no-unescaped-entities */
 import { Flex, Heading, Text } from "@chakra-ui/react";
 import ChakraNextImage from "../ui/Image";
+import { useTranslation } from "react-i18next";
 
 const Hero = () => {
+  const { t } = useTranslation()
   return (
     <Flex
       direction={"column"}
@@ -19,7 +21,7 @@ const Hero = () => {
         borderRadius={'50%'}
         margin={10}
       />
-      <Heading as={'h1'} mb={5} fontSize={48}>Hi, I'm Nico</Heading>
+      <Heading as={'h1'} mb={5} fontSize={48}>{t('title')}</Heading>
       <Text fontSize={24}>This is a personal blog to show some of the things I love to do.</Text>
     </Flex>
   );
