@@ -8,6 +8,8 @@ import {
   Input,
   Textarea,
 } from "@chakra-ui/react";
+import { GetStaticProps } from "next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 const ContactPage = () => {
   return (
@@ -22,10 +24,20 @@ const ContactPage = () => {
           <FormLabel>Message</FormLabel>
           <Textarea />
         </FormControl>
-        <Button colorScheme='teal' type="submit">CONTACT</Button>
+        <Button colorScheme="teal" type="submit">
+          CONTACT
+        </Button>
       </Flex>
     </Flex>
   );
 };
 
 export default ContactPage;
+
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale ?? "en")),
+    },
+  };
+};

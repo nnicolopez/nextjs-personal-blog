@@ -4,6 +4,7 @@ import { Roboto } from "next/font/google";
 import { ChakraProvider } from "@chakra-ui/react";
 import Layout from "@/components/Layout";
 import { theme } from "@/styles/theme";
+import { CookiesProvider } from "react-cookie";
 
 // Load NEXT font for chakra ui
 const roboto = Roboto({
@@ -21,11 +22,13 @@ const App = ({ Component, pageProps }: AppProps) => {
           }
         `}
       </style>
-      <ChakraProvider theme={theme}>
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
-      </ChakraProvider>
+      <CookiesProvider>
+        <ChakraProvider theme={theme}>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </ChakraProvider>
+      </CookiesProvider>
     </>
   );
 };
