@@ -1,7 +1,23 @@
 {
-  "name": "nextjs-course-blog",
-  "version": "0.1.0",
-  "private": true,
+  "name": "personal-cms",
+  "version": "0.2.0",
+  "description": "An open-source CMS platform for creating and managing beautiful personal pages with ease",
+  "author": "Nicolas Lopez <https://github.com/nnicolopez>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nnicolopez/personal-cms"
+  },
+  "keywords": [
+    "cms",
+    "personal-page",
+    "portfolio",
+    "nextjs",
+    "mantine",
+    "typescript",
+    "prisma",
+    "clerk"
+  ],
   "scripts": {
     "dev": "next dev",
     "build": "next build",
