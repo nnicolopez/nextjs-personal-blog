@@ -1,52 +1,60 @@
-import { Link } from "@chakra-ui/next-js";
+import Link from "next/link";
 import {
   Flex,
-  List,
-  ListItem,
   Switch,
   Text,
-  useColorMode,
-  useTheme,
-} from "@chakra-ui/react";
+  useMantineColorScheme,
+  useMantineTheme,
+} from "@mantine/core";
 
 const MainNav = () => {
-  const { toggleColorMode, colorMode } = useColorMode();
-  const theme = useTheme();
+  const { toggleColorScheme, colorScheme } = useMantineColorScheme();
+  const theme = useMantineTheme();
 
   console.log(theme);
 
   return (
     <Flex
-      as="header"
-      gap={10}
-      width="100%"
-      height={"80px"}
-      alignItems={"center"}
-      padding={"10px 30px"}
-      // borderBottom={"1px"}
-      // borderColor={"gray.300"}
+      component="header"
+      gap="md"
+      w="100%"
+      h={80}
+      align="center"
+      px={30}
+      py={10}
+      // style={{ borderBottom: "1px solid", borderColor: theme.colors.gray[3] }}
     >
-      <Link href="/">Home</Link>
+      <Link href="/" style={{ textDecoration: "none", color: "inherit" }}>
+        Home
+      </Link>
 
-      <List ml={"auto"} display={"flex"} gap={5}>
-        <ListItem>
-          <Link href="/programming">Programming</Link>
-        </ListItem>
-        <ListItem>
-          <Link href="/music">Music</Link>
-        </ListItem>
-        <ListItem>
-          <Link href="/sports">Sports</Link>
-        </ListItem>
-        <ListItem>
-          <Link href="/contact">Contact</Link>
-        </ListItem>
-      </List>
-      <Flex display="flex" alignItems="center">
-        <Text my={1} mx={2} textTransform="capitalize">
-          {colorMode} theme
+      <Flex component="ul" style={{ listStyle: "none", marginLeft: "auto", padding: 0 }} gap="md">
+        <li>
+          <Link href="/programming" style={{ textDecoration: "none", color: "inherit" }}>
+            Programming
+          </Link>
+        </li>
+        <li>
+          <Link href="/music" style={{ textDecoration: "none", color: "inherit" }}>
+            Music
+          </Link>
+        </li>
+        <li>
+          <Link href="/sports" style={{ textDecoration: "none", color: "inherit" }}>
+            Sports
+          </Link>
+        </li>
+        <li>
+          <Link href="/contact" style={{ textDecoration: "none", color: "inherit" }}>
+            Contact
+          </Link>
+        </li>
+      </Flex>
+      <Flex align="center" gap="xs">
+        <Text size="sm" tt="capitalize" mx="xs">
+          {colorScheme} theme
         </Text>
-        <Switch id="color-mode" onChange={toggleColorMode} />
+        <Switch onChange={toggleColorScheme} />
       </Flex>
     </Flex>
   );

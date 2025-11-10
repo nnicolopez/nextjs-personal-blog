@@ -1,5 +1,5 @@
-import { Link } from "@chakra-ui/next-js";
-import { Flex, Heading, Icon, List, ListItem, Text } from "@chakra-ui/react";
+import Link from "next/link";
+import { Flex, Title, Text, Anchor } from "@mantine/core";
 import { CSSProperties } from "react";
 import { FaGithubSquare, FaInstagramSquare, FaLinkedin } from "react-icons/fa";
 
@@ -7,37 +7,36 @@ const linkStyle: CSSProperties = {
   display: "flex",
   gap: "10px",
   alignItems: "center",
+  textDecoration: "none",
+  color: "inherit",
 };
 
 const SocialNetworks = () => {
   return (
-    <Flex direction={"column"}>
-      <Heading fontSize={18} mb={5}>
+    <Flex direction="column">
+      <Title order={4} mb="md">
         Follow me on:
-      </Heading>
-      <List display={"flex"} flexDirection={"column"} gap={"2"}>
-        <ListItem>
-          <Link href={"https://www.linkedin.com/in/nnicolopez"} sx={linkStyle}>
-            <Icon as={FaLinkedin} boxSize={8} />
+      </Title>
+      <Flex component="ul" direction="column" gap="xs" style={{ listStyle: "none", padding: 0 }}>
+        <li>
+          <Anchor href="https://www.linkedin.com/in/nnicolopez" target="_blank" style={linkStyle}>
+            <FaLinkedin size={32} />
             <Text>LinkedIn</Text>
-          </Link>
-        </ListItem>
-        <ListItem>
-          <Link href={"https://github.com/nnicolopez"} sx={linkStyle}>
-            <Icon as={FaGithubSquare} boxSize={8} />
+          </Anchor>
+        </li>
+        <li>
+          <Anchor href="https://github.com/nnicolopez" target="_blank" style={linkStyle}>
+            <FaGithubSquare size={32} />
             <Text>Github</Text>
-          </Link>
-        </ListItem>
-        <ListItem>
-          <Link
-            href={"https://www.instagram.com/nnicolaslopez/"}
-            sx={linkStyle}
-          >
-            <Icon as={FaInstagramSquare} boxSize={8} />
+          </Anchor>
+        </li>
+        <li>
+          <Anchor href="https://www.instagram.com/nnicolaslopez/" target="_blank" style={linkStyle}>
+            <FaInstagramSquare size={32} />
             <Text>Instagram</Text>
-          </Link>
-        </ListItem>
-      </List>
+          </Anchor>
+        </li>
+      </Flex>
     </Flex>
   );
 };

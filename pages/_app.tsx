@@ -1,30 +1,12 @@
 import type { AppProps } from "next/app";
-import { ChakraProvider, extendTheme } from "@chakra-ui/react";
-import Layout from "@/components/Layout";
+import { MantineProvider } from "@mantine/core";
 import { theme } from "@/styles/theme";
-import { Roboto } from "next/font/google";
-
-// Load NEXT font for chakra ui
-const roboto = Roboto({
-  subsets: ['latin'],
-  weight: '500',
-});
+import "@mantine/core/styles.css";
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <>
-      <style jsx global>
-        {`
-          :root {
-            --font-roboto: ${roboto.style.fontFamily};
-          }
-        `}
-      </style>
-      <ChakraProvider theme={theme}>
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
-      </ChakraProvider>
-    </>
+    <MantineProvider theme={theme} defaultColorScheme="auto">
+      <Component {...pageProps} />
+    </MantineProvider>
   );
 }

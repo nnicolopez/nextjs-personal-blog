@@ -1,4 +1,4 @@
-import { Divider, Flex } from "@chakra-ui/react";
+import { Divider, Flex } from "@mantine/core";
 import Footer from "../Footer";
 import MainNav from "../MainNav";
 
@@ -8,10 +8,10 @@ interface Props {
 
 const Layout = ({ children }: Props) => {
   return (
-    <Flex direction={"column"} minHeight={"100vh"}>
+    <Flex direction="column" style={{ minHeight: "100vh" }}>
       <MainNav />
       <Divider />
-      <Flex as={"main"} grow={1} width={"100%"} flexDirection={"column"}>
+      <Flex component="main" style={{ flexGrow: 1 }} w="100%" direction="column">
         {children}
       </Flex>
       <Divider />

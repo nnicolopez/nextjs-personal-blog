@@ -2,27 +2,26 @@
 import {
   Button,
   Flex,
-  FormControl,
-  FormHelperText,
-  FormLabel,
-  Input,
+  TextInput,
   Textarea,
-} from "@chakra-ui/react";
+} from "@mantine/core";
 
 const ContactPage = () => {
   return (
-    <Flex width={"100%"} justifyContent={"center"} mt={20}>
-      <Flex width={"500px"} direction={"column"} gap={"20px"}>
-        <FormControl>
-          <FormLabel>Email address</FormLabel>
-          <Input type="email" />
-          <FormHelperText>We'll never share your email.</FormHelperText>
-        </FormControl>
-        <FormControl>
-          <FormLabel>Message</FormLabel>
-          <Textarea />
-        </FormControl>
-        <Button colorScheme='teal' type="submit">CONTACT</Button>
+    <Flex w="100%" justify="center" mt="xl">
+      <Flex w={500} direction="column" gap="lg">
+        <TextInput
+          label="Email address"
+          type="email"
+          description="We'll never share your email."
+          withAsterisk
+        />
+        <Textarea
+          label="Message"
+          placeholder="Your message..."
+          minRows={4}
+        />
+        <Button color="teal" type="submit">CONTACT</Button>
       </Flex>
     </Flex>
   );

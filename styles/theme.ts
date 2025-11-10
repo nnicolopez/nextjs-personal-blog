@@ -1,11 +1,9 @@
-import { extendTheme } from "@chakra-ui/react";
+import { createTheme } from "@mantine/core";
 
-// Here we can extend the themes for chakra ui
-export const theme = extendTheme({
-  // ...
-  fonts: {
-    heading: "var(--font-rubik)",
-    body: "var(--font-rubik)",
+// Here we can extend the themes for Mantine
+export const theme = createTheme({
+  fontFamily: "var(--font-rubik)",
+  headings: {
+    fontFamily: "var(--font-rubik)",
   },
-  // ...
 });

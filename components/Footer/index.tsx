@@ -1,11 +1,11 @@
-import { Flex, useTheme } from "@chakra-ui/react";
+import { Flex, useMantineTheme } from "@mantine/core";
 import SocialNetworks from "./Social";
 import Technologies from "./Technologies";
 
 const Footer = () => {
-  const theme = useTheme()
+  const theme = useMantineTheme();
   return (
-    <Flex as="footer" height={200} gap={'100px'} justifyContent={'center'} padding={30}>
+    <Flex component="footer" h={200} gap="xl" justify="center" p={30}>
       <SocialNetworks />
       <Technologies />
     </Flex>

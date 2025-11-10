@@ -1,44 +1,43 @@
-import { Link } from "@chakra-ui/next-js";
-import { Flex, Heading, List, ListItem, Icon, Text } from "@chakra-ui/react";
+import Link from "next/link";
+import { Flex, Title, Text, Anchor } from "@mantine/core";
 import { CSSProperties } from "react";
 import { FaReact } from "react-icons/fa";
-import { SiNextdotjs, SiChakraui } from "react-icons/si";
+import { SiNextdotjs, SiMantine } from "react-icons/si";
 
 const linkStyle: CSSProperties = {
   display: "flex",
   gap: "10px",
   alignItems: "center",
+  textDecoration: "none",
+  color: "inherit",
 };
 
 const Technologies = () => {
   return (
-    <Flex direction={"column"}>
-      <Heading fontSize={18} mb={5}>
+    <Flex direction="column">
+      <Title order={4} mb="md">
         Technologies on this site:
-      </Heading>
-      <List display={"flex"} flexDirection={"column"} gap={"2"}>
-        <ListItem>
-          <Link href={"https://nextjs.org/"} sx={linkStyle}>
-            <Icon as={SiNextdotjs} boxSize={8} />
+      </Title>
+      <Flex component="ul" direction="column" gap="xs" style={{ listStyle: "none", padding: 0 }}>
+        <li>
+          <Anchor href="https://nextjs.org/" target="_blank" style={linkStyle}>
+            <SiNextdotjs size={32} />
             <Text>Next.js</Text>
-          </Link>
-        </ListItem>
-        <ListItem>
-          <Link
-            href={"https://react.dev/"}
-            sx={linkStyle}
-          >
-            <Icon as={FaReact} boxSize={8} />
+          </Anchor>
+        </li>
+        <li>
+          <Anchor href="https://react.dev/" target="_blank" style={linkStyle}>
+            <FaReact size={32} />
             <Text>React</Text>
-          </Link>
-        </ListItem>
-        <ListItem>
-          <Link href={"https://chakra-ui.com/"} sx={linkStyle}>
-            <Icon as={SiChakraui} boxSize={8} />
-            <Text>Chakra UI</Text>
-          </Link>
-        </ListItem>
-      </List>
+          </Anchor>
+        </li>
+        <li>
+          <Anchor href="https://mantine.dev/" target="_blank" style={linkStyle}>
+            <SiMantine size={32} />
+            <Text>Mantine</Text>
+          </Anchor>
+        </li>
+      </Flex>
     </Flex>
   );
 };
