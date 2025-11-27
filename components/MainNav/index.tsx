@@ -1,17 +1,17 @@
 import Link from "next/link";
 import {
+  ActionIcon,
   Flex,
-  Switch,
-  Text,
+  useComputedColorScheme,
   useMantineColorScheme,
   useMantineTheme,
 } from "@mantine/core";
+import { MdDarkMode, MdLightMode } from "react-icons/md";
 
 const MainNav = () => {
-  const { toggleColorScheme, colorScheme } = useMantineColorScheme();
+  const { setColorScheme } = useMantineColorScheme();
+  const computedColorScheme = useComputedColorScheme('light');
   const theme = useMantineTheme();
-
-  console.log(theme);
 
   return (
     <Flex
@@ -50,12 +50,18 @@ const MainNav = () => {
           </Link>
         </li>
       </Flex>
-      <Flex align="center" gap="xs">
-        <Text size="sm" tt="capitalize" mx="xs">
-          {colorScheme} theme
-        </Text>
-        <Switch onChange={toggleColorScheme} />
-      </Flex>
+      <ActionIcon
+        onClick={() => setColorScheme(computedColorScheme === 'light' ? 'dark' : 'light')}
+        variant="default"
+        size="xl"
+        aria-label="Toggle color scheme"
+      >
+        {computedColorScheme === 'light' ? (
+          <MdLightMode size={20} />
+        ) : (
+          <MdDarkMode size={20} />
+        )}
+      </ActionIcon>
     </Flex>
   );
 };

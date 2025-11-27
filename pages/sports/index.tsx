@@ -1,5 +1,11 @@
+import Layout from "@/components/Layout";
+
 const SportsPage = () => {
-  return <div>SportsPage</div>;
+  return (
+    <Layout>
+      <div>SportsPage</div>
+    </Layout>
+  );
 };
 
 export default SportsPage;

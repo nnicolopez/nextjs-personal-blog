@@ -5,25 +5,28 @@ import {
   TextInput,
   Textarea,
 } from "@mantine/core";
+import Layout from "@/components/Layout";
 
 const ContactPage = () => {
   return (
-    <Flex w="100%" justify="center" mt="xl">
-      <Flex w={500} direction="column" gap="lg">
-        <TextInput
-          label="Email address"
-          type="email"
-          description="We'll never share your email."
-          withAsterisk
-        />
-        <Textarea
-          label="Message"
-          placeholder="Your message..."
-          minRows={4}
-        />
-        <Button color="teal" type="submit">CONTACT</Button>
+    <Layout>
+      <Flex w="100%" justify="center" mt="xl">
+        <Flex w={500} direction="column" gap="lg">
+          <TextInput
+            label="Email address"
+            type="email"
+            description="We'll never share your email."
+            withAsterisk
+          />
+          <Textarea
+            label="Message"
+            placeholder="Your message..."
+            minRows={4}
+          />
+          <Button color="teal" type="submit">CONTACT</Button>
+        </Flex>
       </Flex>
-    </Flex>
+    </Layout>
   );
 };
 

@@ -7,7 +7,7 @@ export default function Document() {
       <Head>
         <ColorSchemeScript defaultColorScheme="auto" />
       </Head>
-      <body>
+      <body className="__next-font-inter">
         <Main />
         <NextScript />
       </body>

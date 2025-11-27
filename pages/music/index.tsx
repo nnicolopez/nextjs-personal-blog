@@ -1,5 +1,11 @@
+import Layout from "@/components/Layout";
+
 const MusicPage = () => {
-  return <div>MusicPage</div>;
+  return (
+    <Layout>
+      <div>MusicPage</div>
+    </Layout>
+  );
 };
 
 export default MusicPage;

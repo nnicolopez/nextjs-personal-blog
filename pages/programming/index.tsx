@@ -1,5 +1,11 @@
+import Layout from "@/components/Layout";
+
 const ProgrammingPage = () => {
-  return <div>ProgrammingPage</div>;
+  return (
+    <Layout>
+      <div>ProgrammingPage</div>
+    </Layout>
+  );
 };
 
 export default ProgrammingPage;
