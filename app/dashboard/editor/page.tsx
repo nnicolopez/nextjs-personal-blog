@@ -1,12 +1,11 @@
-import Link from "next/link";
+import { Flex, Paper } from "@mantine/core";
 import AppHeader from "@/components/dashboard/AppHeader";
-import { VisibilityChip } from "@/components/dashboard/ActionButtons";
+import EditorNav from "@/components/dashboard/EditorNav";
 import { ProfileForm, SectionForm, SocialForm } from "@/components/dashboard/EditorForms";
-import ui from "@/components/ui/ui.module.css";
+import { VisibilityChip } from "@/components/dashboard/SectionToggles";
 import { getSiteHost, requireAccount } from "@/lib/data";
 import { getDictionary } from "@/lib/i18n";
 import { displayUrl } from "@/lib/validation";
-import styles from "@/components/dashboard/dashboard.module.css";
 
 interface Props {
   searchParams: Promise<{ s?: string }>;
@@ -30,21 +29,9 @@ const EditorPage = async ({ searchParams }: Props) => {
   return (
     <>
       <AppHeader title={t.navEditPage} lang={lang} />
-      <div className={styles.editor}>
-        <nav className={styles.editorNav}>
-          {navItems.map((item) => (
-            <Link
-              key={item.key}
-              href={`/dashboard/editor?s=${item.key}`}
-              className={`${styles.navItem} ${item.key === current ? styles.navItemActive : ""}`}
-              aria-current={item.key === current ? "page" : undefined}
-            >
-              {item.label}
-            </Link>
-          ))}
-        </nav>
-
-        <div className={`${ui.card} ${styles.editorCard}`}>
+      <Flex gap={28} align="flex-start" direction={{ base: "column", sm: "row" }}>
+        <EditorNav items={navItems} current={current} />
+        <Paper flex={1} w="100%" maw={560} p={28}>
           {current === "profile" && (
             <ProfileForm
               t={t}
@@ -70,17 +57,13 @@ const EditorPage = async ({ searchParams }: Props) => {
               sectionId={section.id}
               heading={t.sectionLabels[section.type]}
               visibility={
-                <VisibilityChip
-                  sectionId={section.id}
-                  visible={section.isVisible}
-                  label={section.isVisible ? t.visible : t.hidden}
-                />
+                <VisibilityChip sectionId={section.id} visible={section.isVisible} labels={{ visible: t.visible, hidden: t.hidden }} />
               }
               values={{ title: section.title, content: section.content }}
             />
           )}
-        </div>
-      </div>
+        </Paper>
+      </Flex>
     </>
   );
 };

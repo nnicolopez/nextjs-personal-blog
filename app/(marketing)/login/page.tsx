@@ -1,9 +1,10 @@
+import { Alert, Button, Text } from "@mantine/core";
 import { redirect } from "next/navigation";
 import { auth, isAllowed, signIn } from "@/auth";
+import AuthCard from "@/components/marketing/AuthCard";
 import MarketingHeader from "@/components/marketing/MarketingHeader";
 import GoogleIcon from "@/components/ui/GoogleIcon";
 import { getDictionary } from "@/lib/i18n";
-import styles from "@/components/marketing/marketing.module.css";
 
 interface Props {
   searchParams: Promise<{ error?: string }>;
@@ -19,29 +20,24 @@ const LoginPage = async ({ searchParams }: Props) => {
   return (
     <>
       <MarketingHeader lang={lang} t={t} />
-      <main className={styles.authMain}>
-        <div className={styles.authCard}>
-          <h1>{t.loginTitle}</h1>
-          <p className={styles.authSub}>{t.loginSub}</p>
-          {error && (
-            <p className={styles.authError} role="alert">
-              {error === "AccessDenied" ? t.accessDenied : t.loginError}
-            </p>
-          )}
-          <form
-            action={async () => {
-              "use server";
-              await signIn("google", { redirectTo: "/dashboard" });
-            }}
-          >
-            <button type="submit" className={styles.googleButton}>
-              <GoogleIcon />
-              {t.google}
-            </button>
-          </form>
-          <p className={styles.authNote}>{t.privateNote}</p>
-        </div>
-      </main>
+      <AuthCard title={t.loginTitle} sub={t.loginSub}>
+        {error && (
+          <Alert color="red" variant="light" mb="lg" role="alert">
+            {error === "AccessDenied" ? t.accessDenied : t.loginError}
+          </Alert>
+        )}
+        <form
+          action={async () => {
+            "use server";
+            await signIn("google", { redirectTo: "/dashboard" });
+          }}
+        >
+          <Button type="submit" variant="default" fullWidth size="md" leftSection={<GoogleIcon />}>
+            {t.google}
+          </Button>
+        </form>
+        <Text fz={13} c="dimmed" ta="center" mt={22}>{t.privateNote}</Text>
+      </AuthCard>
     </>
   );
 };

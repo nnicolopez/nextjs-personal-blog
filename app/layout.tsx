@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import { Work_Sans } from "next/font/google";
-import { ColorSchemeScript, MantineProvider, mantineHtmlProps } from "@mantine/core";
-import { theme } from "@/styles/theme";
+import { ColorSchemeScript, mantineHtmlProps } from "@mantine/core";
+import { getThemeId } from "@/lib/appearance";
 import { getLang } from "@/lib/i18n";
+import Providers from "./providers";
 import "@mantine/core/styles.css";
 import "./globals.css";
 
@@ -20,16 +21,14 @@ export const metadata: Metadata = {
 };
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  const lang = await getLang();
+  const [lang, themeId] = await Promise.all([getLang(), getThemeId()]);
   return (
     <html lang={lang} className={workSans.variable} {...mantineHtmlProps}>
       <head>
         <ColorSchemeScript defaultColorScheme="dark" />
       </head>
       <body>
-        <MantineProvider theme={theme} defaultColorScheme="dark">
-          {children}
-        </MantineProvider>
+        <Providers themeId={themeId}>{children}</Providers>
       </body>
     </html>
   );

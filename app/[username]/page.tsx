@@ -1,15 +1,14 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import { cache } from "react";
+import { Alert, Box, Group, Text } from "@mantine/core";
 import { auth } from "@/auth";
 import PublicPage from "@/components/public/PublicPage";
-import ui from "@/components/ui/ui.module.css";
+import { ButtonLink } from "@/components/ui/Links";
 import { getAccountByUsername, getSiteHost } from "@/lib/data";
 import { getDictionary } from "@/lib/i18n";
 import { toPublicPageData } from "@/lib/page-data";
 import { normalizeUsername } from "@/lib/validation";
-import styles from "@/components/public/PublicPage.module.css";
 
 interface Props {
   params: Promise<{ username: string }>;
@@ -39,19 +38,23 @@ const UserPage = async ({ params }: Props) => {
   const host = await getSiteHost();
 
   return (
-    <div className={styles.page}>
+    <Box mih="100vh" display="flex" style={{ flexDirection: "column" }}>
       {isOwner && (
-        <div className={styles.ownerBar}>
-          <span>{host}/{account.user.username}</span>
-          <Link href="/dashboard" className={ui.btnSecondary}>{t.backToDashboard}</Link>
-        </div>
+        <Group justify="space-between" px="6vw" py={20}>
+          <Text fz={13} c="dimmed" ff="monospace">{host}/{account.user.username}</Text>
+          <ButtonLink href="/dashboard" variant="default" size="compact-md">{t.backToDashboard}</ButtonLink>
+        </Group>
       )}
-      {isOwner && !account.page.isPublished && <div className={styles.draftBanner}>{t.draftBanner}</div>}
-      <main className={styles.content}>
+      {isOwner && !account.page.isPublished && (
+        <Alert mx="6vw" radius="md" variant="light" ta="center">{t.draftBanner}</Alert>
+      )}
+      <Box component="main" flex={1} pt={20}>
         <PublicPage data={toPublicPageData(account)} />
-      </main>
-      <footer className={styles.footer}>{t.madeWith}</footer>
-    </div>
+      </Box>
+      <Text component="footer" ta="center" p={24} fz={13} c="dimmed" style={{ borderTop: "1px solid var(--pc-border)" }}>
+        {t.madeWith}
+      </Text>
+    </Box>
   );
 };
 

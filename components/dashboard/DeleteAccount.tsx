@@ -1,8 +1,8 @@
+import { Button } from "@mantine/core";
 import { deleteAccountAction } from "@/app/actions";
 import SubmitButton from "@/components/ui/SubmitButton";
-import ui from "@/components/ui/ui.module.css";
 import type { Dictionary } from "@/lib/i18n";
-import styles from "./dashboard.module.css";
+import classes from "./DeleteAccount.module.css";
 
 /**
  * Two-step delete: the first click only reveals the real button, to the
@@ -10,13 +10,13 @@ import styles from "./dashboard.module.css";
  * Uses <details> so it works before the page hydrates.
  */
 const DeleteAccount = ({ t }: { t: Dictionary }) => (
-  <details className={styles.confirm}>
-    <summary className={ui.btnDanger}>
-      <span className={styles.confirmClosed}>{t.deleteAccount}</span>
-      <span className={styles.confirmOpen}>{t.cancel}</span>
-    </summary>
+  <details className={classes.confirm}>
+    <Button component="summary" variant="outline" color="red" className={classes.summary}>
+      <span className={classes.closed}>{t.deleteAccount}</span>
+      <span className={classes.open}>{t.cancel}</span>
+    </Button>
     <form action={deleteAccountAction}>
-      <SubmitButton className={`${ui.btnDanger} ${ui.btnDangerSolid}`}>{t.confirmDelete}</SubmitButton>
+      <SubmitButton color="red">{t.confirmDelete}</SubmitButton>
     </form>
   </details>
 );

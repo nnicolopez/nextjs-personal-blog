@@ -8,6 +8,7 @@ import { auth, requireUserEmail, signOut } from "@/auth";
 import { db, pages, sections, users, SECTION_TYPES, TEMPLATES, type Template } from "@/db";
 import { getAccount, requireAccount } from "@/lib/data";
 import { getDictionary, type Lang } from "@/lib/i18n";
+import { isThemeId, THEME_COOKIE } from "@/themes";
 import { isUniqueViolation, LIMITS, normalizeUrl, normalizeUsername, usernameProblem } from "@/lib/validation";
 
 /**
@@ -39,6 +40,13 @@ export async function signOutAction() {
 
 export async function setLangAction(lang: Lang) {
   (await cookies()).set("lang", lang === "en" ? "en" : "es", { path: "/", maxAge: 60 * 60 * 24 * 365, sameSite: "lax" });
+  refresh();
+}
+
+export async function setThemeAction(themeId: string) {
+  await requireUserEmail();
+  if (!isThemeId(themeId)) return;
+  (await cookies()).set(THEME_COOKIE, themeId, { path: "/", maxAge: 60 * 60 * 24 * 365, sameSite: "lax" });
   refresh();
 }
 

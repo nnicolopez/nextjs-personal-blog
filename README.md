@@ -200,6 +200,18 @@ Then create the tables with `npm run db:push`.
 
 ---
 
+## 🎨 Themes
+
+The UI uses [Mantine](https://mantine.dev/) components. App themes live in `themes/`, one file per theme:
+
+- `themes/types.ts` describes a theme: its main and secondary colors, the day and night tokens (backgrounds, text, borders, hero scene) and optional Mantine overrides (fonts, radius, component defaults).
+- `themes/base.ts` turns a theme into the Mantine theme plus the `--pc-*` CSS variables used by custom CSS.
+- `themes/index.ts` lists the available themes.
+
+To add a theme, copy `themes/violet-cyan.ts`, change its id, label and colors, and add it to the list in `themes/index.ts`. It then shows up in Settings → Appearance. The choice is stored in the `app-theme` cookie; night/day is a separate toggle.
+
+---
+
 ## 📁 Project Structure
 
 ```
@@ -220,8 +232,7 @@ nextjs-personal-blog/
 ├── auth.ts              # Auth.js config and email allowlist
 ├── proxy.ts             # Protects every route (Next.js middleware)
 ├── db/                  # Drizzle schema and Neon client
-├── styles/              # Global styles and theme
-│   └── theme.ts        # Mantine theme configuration
+├── themes/              # App themes (one file per theme) and the Mantine setup
 ├── public/              # Static assets
 ├── docs/                # Documentation
 ├── lib/                 # Utility functions (coming soon)

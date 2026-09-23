@@ -1,12 +1,12 @@
+import { Group, Title } from "@mantine/core";
 import Toggles from "@/components/ui/Toggles";
 import type { Lang } from "@/lib/i18n";
-import styles from "./dashboard.module.css";
 
 const AppHeader = ({ title, lang }: { title: string; lang: Lang }) => (
-  <div className={styles.header}>
-    <h1>{title}</h1>
+  <Group justify="space-between" mb={32} gap="md">
+    <Title order={1} fz={24}>{title}</Title>
     <Toggles lang={lang} compact />
-  </div>
+  </Group>
 );
 
 export default AppHeader;

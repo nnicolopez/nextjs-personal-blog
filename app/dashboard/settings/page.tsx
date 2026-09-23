@@ -1,30 +1,39 @@
+import { Paper, Stack, Text, TextInput } from "@mantine/core";
 import AppHeader from "@/components/dashboard/AppHeader";
 import DeleteAccount from "@/components/dashboard/DeleteAccount";
-import ui from "@/components/ui/ui.module.css";
+import ThemePicker from "@/components/dashboard/ThemePicker";
+import { getThemeId } from "@/lib/appearance";
 import { requireAccount } from "@/lib/data";
 import { getDictionary } from "@/lib/i18n";
-import styles from "@/components/dashboard/dashboard.module.css";
+import { THEMES } from "@/themes";
 
 const SettingsPage = async () => {
   const account = await requireAccount();
   const { lang, t } = await getDictionary();
+  const themeId = await getThemeId();
 
   return (
     <>
       <AppHeader title={t.navSettings} lang={lang} />
-      <div className={styles.settings}>
-        <div className={ui.card}>
-          <div className={styles.cardTitle}>{t.account}</div>
-          <label className={ui.label} htmlFor="email">{t.emailLabel}</label>
-          <input id="email" type="email" className={ui.input} value={account.user.email} readOnly />
-          <p className={ui.hint}>{t.emailHint}</p>
-        </div>
-        <div className={`${ui.card} ${styles.danger}`}>
-          <div className={`${styles.cardTitle} ${styles.dangerTitle}`}>{t.dangerZone}</div>
-          <p>{t.dangerDesc}</p>
+      <Stack gap={20} maw={520}>
+        <Paper p={26}>
+          <Text fz={15} fw={700} mb={18}>{t.account}</Text>
+          <TextInput label={t.emailLabel} value={account.user.email} readOnly description={t.emailHint} inputWrapperOrder={["label", "input", "description"]} />
+        </Paper>
+        <Paper p={26}>
+          <Text fz={15} fw={700} mb={4}>{t.appearance}</Text>
+          <Text fz={13} c="dimmed" mb={16}>{t.appearanceHint}</Text>
+          <ThemePicker
+            current={themeId}
+            options={THEMES.map((theme) => ({ id: theme.id, label: theme.label[lang], swatches: theme.swatches }))}
+          />
+        </Paper>
+        <Paper p={26} style={{ borderColor: "var(--pc-danger)" }}>
+          <Text fz={15} fw={700} mb={8} c="var(--pc-danger)">{t.dangerZone}</Text>
+          <Text fz={13} c="dimmed" mb={16}>{t.dangerDesc}</Text>
           <DeleteAccount t={t} />
-        </div>
-      </div>
+        </Paper>
+      </Stack>
     </>
   );
 };

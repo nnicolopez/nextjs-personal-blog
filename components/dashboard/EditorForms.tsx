@@ -1,14 +1,13 @@
 "use client";
 
 import { useActionState, useEffect, useState } from "react";
+import { Avatar, Group, Stack, Text, Textarea, TextInput } from "@mantine/core";
 import { saveProfileAction, saveSectionAction, saveSocialAction, type FormState } from "@/app/actions";
-import FieldError from "@/components/ui/FieldError";
 import SubmitButton from "@/components/ui/SubmitButton";
-import ui from "@/components/ui/ui.module.css";
+import UsernameInput from "@/components/ui/UsernameInput";
 import type { Dictionary } from "@/lib/i18n";
-import styles from "./dashboard.module.css";
 
-/** Shows "Saved ✓" next to the button for a few seconds after a save. */
+/** Save button plus a "Saved ✓" note for a few seconds after a save. */
 const SaveRow = ({ state, t }: { state: FormState; t: Dictionary }) => {
   // Each save returns a new state object; remember which one already timed out
   const [dismissed, setDismissed] = useState<FormState | null>(null);
@@ -20,12 +19,16 @@ const SaveRow = ({ state, t }: { state: FormState; t: Dictionary }) => {
   }, [state]);
 
   return (
-    <div className={styles.saveRow}>
+    <Group gap={14} mt={6}>
       <SubmitButton>{t.saveChanges}</SubmitButton>
-      {showSaved && <span className={styles.saved} role="status">{t.saved}</span>}
-    </div>
+      {showSaved && <Text fz={13} fw={600} c="var(--pc-accent1)" role="status">{t.saved}</Text>}
+    </Group>
   );
 };
+
+const CardTitle = ({ children }: { children: React.ReactNode }) => (
+  <Text fz={16} fw={700}>{children}</Text>
+);
 
 interface ProfileProps {
   t: Dictionary;
@@ -38,35 +41,38 @@ export const ProfileForm = ({ t, host, avatarUrl, values }: ProfileProps) => {
   const [state, formAction] = useActionState(saveProfileAction, {});
   return (
     <form action={formAction}>
-      <div className={styles.cardTitle}>{t.profile}</div>
-      <div className={styles.avatarRow}>
-        {avatarUrl ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img src={avatarUrl} alt="" width={72} height={72} referrerPolicy="no-referrer" />
-        ) : (
-          <div className={styles.avatarPlaceholder} />
-        )}
-        <span>{t.avatarHint}</span>
-      </div>
-      <div className={ui.field}>
-        <label className={ui.label} htmlFor="fullName">{t.fullNameLabel}</label>
-        <input id="fullName" name="fullName" className={ui.input} defaultValue={state.values?.fullName ?? values.fullName} required maxLength={80} />
-        <FieldError message={state.errors?.fullName} />
-      </div>
-      <div className={ui.field}>
-        <label className={ui.label} htmlFor="username">{t.usernameLabel}</label>
-        <div className={ui.prefixed}>
-          <span>{host}/</span>
-          <input id="username" name="username" defaultValue={state.values?.username ?? values.username} required maxLength={30} autoComplete="off" spellCheck={false} />
-        </div>
-        <FieldError message={state.errors?.username} />
-      </div>
-      <div className={ui.field}>
-        <label className={ui.label} htmlFor="bio">{t.bioLabel}</label>
-        <textarea id="bio" name="bio" className={ui.textarea} rows={3} defaultValue={state.values?.bio ?? values.bio} maxLength={600} />
-        <FieldError message={state.errors?.bio} />
-      </div>
-      <SaveRow state={state} t={t} />
+      <Stack gap="md">
+        <CardTitle>{t.profile}</CardTitle>
+        <Group gap={16} wrap="nowrap">
+          <Avatar src={avatarUrl} name={values.fullName} size={72} color="initials" imageProps={{ referrerPolicy: "no-referrer" }} />
+          <Text fz={13} c="dimmed">{t.avatarHint}</Text>
+        </Group>
+        <TextInput
+          label={t.fullNameLabel}
+          name="fullName"
+          defaultValue={state.values?.fullName ?? values.fullName}
+          required
+          maxLength={80}
+          error={state.errors?.fullName}
+        />
+        <UsernameInput
+          label={t.usernameLabel}
+          host={host}
+          defaultValue={state.values?.username ?? values.username}
+          error={state.errors?.username}
+        />
+        <Textarea
+          label={t.bioLabel}
+          name="bio"
+          rows={3}
+          autosize
+          minRows={3}
+          defaultValue={state.values?.bio ?? values.bio}
+          maxLength={600}
+          error={state.errors?.bio}
+        />
+        <SaveRow state={state} t={t} />
+      </Stack>
     </form>
   );
 };
@@ -86,24 +92,23 @@ export const SocialForm = ({ t, values }: SocialProps) => {
   const [state, formAction] = useActionState(saveSocialAction, {});
   return (
     <form action={formAction}>
-      <div className={styles.cardTitle}>{t.socialLinks}</div>
-      {SOCIAL_FIELDS.map((field) => (
-        <div key={field.key} className={ui.field}>
-          <label className={ui.label} htmlFor={field.key}>{field.label}</label>
-          <input
-            id={field.key}
+      <Stack gap="md">
+        <CardTitle>{t.socialLinks}</CardTitle>
+        {SOCIAL_FIELDS.map((field) => (
+          <TextInput
+            key={field.key}
+            label={field.label}
             name={field.key}
-            className={ui.input}
             defaultValue={state.values?.[field.key] ?? values[field.key]}
             placeholder={field.placeholder}
             maxLength={200}
             inputMode="url"
             autoComplete="off"
+            error={state.errors?.[field.key]}
           />
-          <FieldError message={state.errors?.[field.key]} />
-        </div>
-      ))}
-      <SaveRow state={state} t={t} />
+        ))}
+        <SaveRow state={state} t={t} />
+      </Stack>
     </form>
   );
 };
@@ -119,26 +124,35 @@ interface SectionProps {
 export const SectionForm = ({ t, sectionId, heading, visibility, values }: SectionProps) => {
   const [state, formAction] = useActionState(saveSectionAction, {});
   return (
-    <>
-      {/* Outside the form: the visibility toggle is its own form, and forms can't nest */}
-      <div className={styles.sectionHead}>
-        <div className={styles.cardTitle}>{heading}</div>
+    <Stack gap="md">
+      <Group justify="space-between">
+        <CardTitle>{heading}</CardTitle>
         {visibility}
-      </div>
+      </Group>
       <form action={formAction}>
         <input type="hidden" name="sectionId" value={sectionId} />
-        <div className={ui.field}>
-          <label className={ui.label} htmlFor="title">{t.titleLabel}</label>
-          <input id="title" name="title" className={ui.input} defaultValue={state.values?.title ?? values.title} required maxLength={80} />
-          <FieldError message={state.errors?.title} />
-        </div>
-        <div className={ui.field}>
-          <label className={ui.label} htmlFor="content">{t.contentLabel}</label>
-          <textarea id="content" name="content" className={ui.textarea} rows={6} defaultValue={state.values?.content ?? values.content} maxLength={5000} />
-          <FieldError message={state.errors?.content} />
-        </div>
-        <SaveRow state={state} t={t} />
+        <Stack gap="md">
+          <TextInput
+            label={t.titleLabel}
+            name="title"
+            defaultValue={state.values?.title ?? values.title}
+            required
+            maxLength={80}
+            error={state.errors?.title}
+          />
+          <Textarea
+            label={t.contentLabel}
+            name="content"
+            autosize
+            minRows={6}
+            maxRows={16}
+            defaultValue={state.values?.content ?? values.content}
+            maxLength={5000}
+            error={state.errors?.content}
+          />
+          <SaveRow state={state} t={t} />
+        </Stack>
       </form>
-    </>
+    </Stack>
   );
 };
