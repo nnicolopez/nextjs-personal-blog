@@ -156,14 +156,14 @@ Great! Here's how to get started:
 6. **Open browser:**
    Navigate to [http://localhost:3000](http://localhost:3000)
 
-### Environment Setup (Once Backend is Added)
+### Environment Setup
 
 Create `.env.local`:
 ```bash
 # Copy template
 cp .env.example .env.local
 
-# Add your credentials (see docs/SETUP.md)
+# Add your credentials (see the Environment Setup section in README.md)
 ```
 
 ---
@@ -450,15 +450,14 @@ personal-cms/
 │   ├── Layout/         # Layout wrapper
 │   ├── MainNav/        # Navigation
 │   └── ui/             # Reusable UI components
-├── pages/              # Next.js pages (routing)
-│   ├── api/           # API routes
-│   ├── _app.tsx       # App entry point
-│   └── index.tsx      # Home page
+├── app/                # Next.js App Router pages and layouts
+├── auth.ts            # Auth.js config and email allowlist
+├── proxy.ts           # Route protection
+├── db/                # Drizzle schema and Neon client
 ├── styles/             # Global styles
 │   └── theme.ts       # Mantine theme
 ├── lib/               # Utility functions (future)
 ├── hooks/             # Custom React hooks (future)
-├── prisma/            # Database schema (future)
 ├── public/            # Static assets
 └── docs/              # Documentation
 ```

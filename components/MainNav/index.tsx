@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import {
   ActionIcon,
@@ -6,7 +8,8 @@ import {
   useMantineColorScheme,
   useMantineTheme,
 } from "@mantine/core";
-import { MdDarkMode, MdLightMode } from "react-icons/md";
+import { MdDarkMode, MdLightMode, MdLogout } from "react-icons/md";
+import { signOutAction } from "@/app/actions";
 
 const MainNav = () => {
   const { setColorScheme } = useMantineColorScheme();
@@ -62,6 +65,11 @@ const MainNav = () => {
           <MdDarkMode size={20} />
         )}
       </ActionIcon>
+      <form action={signOutAction}>
+        <ActionIcon type="submit" variant="default" size="xl" aria-label="Sign out">
+          <MdLogout size={20} />
+        </ActionIcon>
+      </form>
     </Flex>
   );
 };

@@ -1,5 +1,7 @@
 # Database Schema Design
 
+> **Stack change (Sep 2026):** authentication is Auth.js with Google and an email allowlist instead of Clerk, and the ORM is Drizzle instead of Prisma, on Next.js App Router. Sections below that mention Clerk or Prisma describe the original plan. The actual schema lives in [`db/schema.ts`](../db/schema.ts); users are identified by their Google email instead of a `clerkId`.
+
 This document describes the database schema for PersonalCMS using PostgreSQL and Prisma ORM.
 
 ## Table of Contents
