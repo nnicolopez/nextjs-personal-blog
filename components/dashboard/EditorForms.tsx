@@ -10,11 +10,12 @@ import styles from "./dashboard.module.css";
 
 /** Shows "Saved ✓" next to the button for a few seconds after a save. */
 const SaveRow = ({ state, t }: { state: FormState; t: Dictionary }) => {
-  const [showSaved, setShowSaved] = useState(false);
+  // Each save returns a new state object; remember which one already timed out
+  const [dismissed, setDismissed] = useState<FormState | null>(null);
+  const showSaved = state.ok && dismissed !== state;
   useEffect(() => {
     if (!state.ok) return;
-    setShowSaved(true);
-    const timer = setTimeout(() => setShowSaved(false), 2500);
+    const timer = setTimeout(() => setDismissed(state), 2500);
     return () => clearTimeout(timer);
   }, [state]);
 
