@@ -26,6 +26,13 @@ export const users = pgTable("users", {
 
 export type SocialLinks = Partial<Record<"linkedin" | "github" | "instagram", string>>;
 
+export const TEMPLATES = ["profile", "grid"] as const;
+export type Template = (typeof TEMPLATES)[number];
+
+// Fixed set of section types for the MVP, in their default order
+export const SECTION_TYPES = ["about", "projects", "skills", "experience", "education", "contact"] as const;
+export type SectionType = (typeof SECTION_TYPES)[number];
+
 export const pages = pgTable("pages", {
   id: uuid("id").primaryKey().defaultRandom(),
   userId: uuid("user_id")
@@ -38,6 +45,8 @@ export const pages = pgTable("pages", {
   bio: text("bio").notNull().default(""),
   avatarUrl: text("avatar_url"),
   socialLinks: jsonb("social_links").$type<SocialLinks>().notNull().default({}),
+  // Public page layout: "profile" (centered, stacked) or "grid" (sidebar + cards)
+  template: text("template").$type<Template>().notNull().default("profile"),
 
   // Publishing
   isPublished: boolean("is_published").notNull().default(false),
@@ -56,7 +65,7 @@ export const sections = pgTable(
       .references(() => pages.id, { onDelete: "cascade" }),
 
     // Section type, e.g. "about", "projects", "skills"
-    type: text("type").notNull(),
+    type: text("type").$type<SectionType>().notNull(),
     title: text("title").notNull(),
     content: text("content").notNull().default(""),
     order: integer("order").notNull().default(0),

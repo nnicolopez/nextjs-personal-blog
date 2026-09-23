@@ -26,12 +26,12 @@ import { createTheme, MantineColorsTuple } from "@mantine/core";
 export const theme = createTheme({
   /**
    * Typography
-   * Uses Inter font loaded via Next.js font optimization
-   * Inter is a modern, professional sans-serif font designed for UI
+   * Uses Work Sans (from the design) loaded via Next.js font optimization
+   * Colors live as CSS variables in app/globals.css
    */
-  fontFamily: "var(--font-inter), -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+  fontFamily: "var(--font-work-sans), -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
   headings: {
-    fontFamily: "var(--font-inter), -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+    fontFamily: "var(--font-work-sans), -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
     fontWeight: "600",
     // Heading sizes can be customized here
     sizes: {

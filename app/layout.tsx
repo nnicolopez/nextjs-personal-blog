@@ -1,15 +1,16 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Work_Sans } from "next/font/google";
 import { ColorSchemeScript, MantineProvider, mantineHtmlProps } from "@mantine/core";
 import { theme } from "@/styles/theme";
+import { getLang } from "@/lib/i18n";
 import "@mantine/core/styles.css";
+import "./globals.css";
 
-// Load Inter font with Latin subset
-const inter = Inter({
+const workSans = Work_Sans({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  weight: ["400", "500", "600", "700", "800"],
   display: "swap",
-  variable: "--font-inter",
+  variable: "--font-work-sans",
 });
 
 export const metadata: Metadata = {
@@ -18,14 +19,15 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const lang = await getLang();
   return (
-    <html lang="en" className={inter.variable} {...mantineHtmlProps}>
+    <html lang={lang} className={workSans.variable} {...mantineHtmlProps}>
       <head>
-        <ColorSchemeScript defaultColorScheme="auto" />
+        <ColorSchemeScript defaultColorScheme="dark" />
       </head>
       <body>
-        <MantineProvider theme={theme} defaultColorScheme="auto">
+        <MantineProvider theme={theme} defaultColorScheme="dark">
           {children}
         </MantineProvider>
       </body>

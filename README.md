@@ -55,13 +55,13 @@ This project recently migrated from Chakra UI to Mantine UI to provide better th
 
 ### What's Working Now
 
-- ✅ Static personal page with Hero section
-- ✅ Responsive card-based content sections
-- ✅ Dark/Light theme toggle
-- ✅ Contact form UI
-- ✅ Modern UI with Mantine components
-- ✅ TypeScript for type safety
-- ✅ Mobile-responsive design
+The app follows the prototype in `design/PersonalCMS.html`:
+
+- ✅ Landing page with night/day theme and ES/EN switch
+- ✅ Google sign-in plus onboarding to pick a username
+- ✅ Dashboard: overview, page editor (profile, 6 sections, social links), template picker, settings with account deletion
+- ✅ Public page at `/username` in two templates (Profile, Grid), with draft/published state
+- ✅ TypeScript, server actions, mobile-responsive layout
 
 ### What's Next (MVP)
 
