@@ -1,5 +1,6 @@
 import "server-only";
 import { asc, eq } from "drizzle-orm";
+import { cache } from "react";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { requireUserEmail } from "@/auth";
@@ -24,10 +25,11 @@ async function findAccountByEmail(email: string) {
   return { ...row, sections: pageSections };
 }
 
-/** The signed-in user's account, or null if they haven't finished onboarding. */
-export async function getAccount() {
-  return findAccountByEmail(await requireUserEmail());
-}
+/**
+ * The signed-in user's account, or null if they haven't finished onboarding.
+ * Cached per request, so the dashboard layout and page share one lookup.
+ */
+export const getAccount = cache(async () => findAccountByEmail(await requireUserEmail()));
 
 /** Same as getAccount, but sends users without an account to onboarding. */
 export async function requireAccount(): Promise<Account> {

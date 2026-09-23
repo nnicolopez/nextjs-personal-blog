@@ -118,23 +118,26 @@ interface SectionProps {
 export const SectionForm = ({ t, sectionId, heading, visibility, values }: SectionProps) => {
   const [state, formAction] = useActionState(saveSectionAction, {});
   return (
-    <form action={formAction}>
-      <input type="hidden" name="sectionId" value={sectionId} />
+    <>
+      {/* Outside the form: the visibility toggle is its own form, and forms can't nest */}
       <div className={styles.sectionHead}>
         <div className={styles.cardTitle}>{heading}</div>
         {visibility}
       </div>
-      <div className={ui.field}>
-        <label className={ui.label} htmlFor="title">{t.titleLabel}</label>
-        <input id="title" name="title" className={ui.input} defaultValue={state.values?.title ?? values.title} required maxLength={80} />
-        <FieldError message={state.errors?.title} />
-      </div>
-      <div className={ui.field}>
-        <label className={ui.label} htmlFor="content">{t.contentLabel}</label>
-        <textarea id="content" name="content" className={ui.textarea} rows={6} defaultValue={state.values?.content ?? values.content} maxLength={5000} />
-        <FieldError message={state.errors?.content} />
-      </div>
-      <SaveRow state={state} t={t} />
-    </form>
+      <form action={formAction}>
+        <input type="hidden" name="sectionId" value={sectionId} />
+        <div className={ui.field}>
+          <label className={ui.label} htmlFor="title">{t.titleLabel}</label>
+          <input id="title" name="title" className={ui.input} defaultValue={state.values?.title ?? values.title} required maxLength={80} />
+          <FieldError message={state.errors?.title} />
+        </div>
+        <div className={ui.field}>
+          <label className={ui.label} htmlFor="content">{t.contentLabel}</label>
+          <textarea id="content" name="content" className={ui.textarea} rows={6} defaultValue={state.values?.content ?? values.content} maxLength={5000} />
+          <FieldError message={state.errors?.content} />
+        </div>
+        <SaveRow state={state} t={t} />
+      </form>
+    </>
   );
 };
