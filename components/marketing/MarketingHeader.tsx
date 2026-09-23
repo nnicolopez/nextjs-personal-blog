@@ -1,8 +1,8 @@
-import Link from "next/link";
+import { Anchor, Group } from "@mantine/core";
+import { ButtonLink, Logo } from "@/components/ui/Links";
 import Toggles from "@/components/ui/Toggles";
-import ui from "@/components/ui/ui.module.css";
 import type { Dictionary, Lang } from "@/lib/i18n";
-import styles from "./marketing.module.css";
+import classes from "./marketing.module.css";
 
 interface Props {
   lang: Lang;
@@ -12,25 +12,25 @@ interface Props {
 }
 
 const MarketingHeader = ({ lang, t, landing }: Props) => (
-  <header className={styles.header}>
-    <Link href="/" className={ui.logo}>PersonalCMS</Link>
+  <Group component="header" justify="space-between" gap="lg" px="6vw" py={22} className={classes.header}>
+    <Logo />
     {landing && (
-      <nav className={styles.headerNav}>
-        <a href="#quienes">{t.navWho}</a>
-        <a href="#features">{t.navFeatures}</a>
-        <a href="#plantilla">{t.navTemplate}</a>
-      </nav>
+      <Group gap={28} visibleFrom="md">
+        <Anchor href="#quienes" c="var(--pc-text)" fw={500} fz={15}>{t.navWho}</Anchor>
+        <Anchor href="#features" c="var(--pc-text)" fw={500} fz={15}>{t.navFeatures}</Anchor>
+        <Anchor href="#plantilla" c="var(--pc-text)" fw={500} fz={15}>{t.navTemplate}</Anchor>
+      </Group>
     )}
-    <div className={styles.headerActions}>
+    <Group gap={10}>
       <Toggles lang={lang} />
       {landing && (
         <>
-          <Link href="/login" className={ui.btnGhost}>{t.headerLogin}</Link>
-          <Link href="/dashboard" className={`${ui.btnPrimary} ${styles.headerCta}`}>{t.headerSignup}</Link>
+          <ButtonLink href="/login" variant="subtle" color="gray" c="var(--pc-text)">{t.headerLogin}</ButtonLink>
+          <ButtonLink href="/dashboard" size="md">{t.headerSignup}</ButtonLink>
         </>
       )}
-    </div>
-  </header>
+    </Group>
+  </Group>
 );
 
 export default MarketingHeader;

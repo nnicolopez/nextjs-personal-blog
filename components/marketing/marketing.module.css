@@ -1,52 +1,9 @@
-.shell {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
-
-/* Header */
+/* Only what Mantine props can't express: the hero scene from the design */
 
 .header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 22px 6vw;
-  gap: 20px;
-  flex-wrap: wrap;
   position: relative;
   z-index: 5;
 }
-
-.headerNav {
-  display: flex;
-  gap: 28px;
-  align-items: center;
-  font-size: 15px;
-  font-weight: 500;
-}
-
-.headerNav a {
-  text-decoration: none;
-}
-
-.headerActions {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-}
-
-.headerCta {
-  font-size: 15px;
-  font-weight: 600;
-}
-
-@media (max-width: 860px) {
-  .headerNav {
-    display: none;
-  }
-}
-
-/* Hero */
 
 .hero {
   position: relative;
@@ -125,11 +82,7 @@
 .heroContent {
   position: relative;
   z-index: 2;
-  display: flex;
-  align-items: center;
-  gap: 60px;
   padding: 0 6vw 70px;
-  flex-wrap: wrap;
   width: 100%;
 }
 
@@ -139,276 +92,21 @@
 }
 
 .heroChip {
-  display: inline-block;
   background: var(--pc-chip-bg);
   color: var(--pc-chip-text);
-  font-size: 13px;
-  font-weight: 600;
-  padding: 7px 14px;
-  border-radius: 999px;
-  margin-bottom: 22px;
 }
 
-.heroCopy h1 {
+.heroTitle {
   font-size: clamp(38px, 5vw, 60px);
   line-height: 1.08;
-  margin: 0 0 22px;
-  font-weight: 700;
+  margin-bottom: 22px;
   letter-spacing: -0.01em;
   color: var(--pc-hero-text);
-}
-
-.heroCopy > p {
-  font-size: 19px;
-  line-height: 1.6;
-  color: var(--pc-hero-text-muted);
-  max-width: 480px;
-  margin: 0 0 34px;
-}
-
-.heroCtas {
-  display: flex;
-  gap: 16px;
-  flex-wrap: wrap;
-  align-items: center;
-}
-
-.bigCta {
-  padding: 16px 30px;
-  font-size: 16px;
-}
-
-.heroCta2 {
-  font-weight: 600;
-  font-size: 16px;
-  padding: 16px 10px;
-  color: var(--pc-hero-text);
-  text-decoration: none;
 }
 
 .heroMock {
   flex: 1 1 420px;
   min-width: 0;
   border-radius: 22px;
-  box-shadow: 0 30px 60px -30px oklch(5% 0.02 265 / 0.55);
-}
-
-/* Content sections */
-
-.section {
-  padding: 70px 6vw;
-}
-
-.sectionAlt {
-  background: var(--pc-surface-alt);
-}
-
-.sectionFeatures {
-  padding: 90px 6vw;
-}
-
-.sectionTemplate {
-  padding: 30px 6vw 100px;
-}
-
-.sectionHead {
-  max-width: 640px;
-  margin: 0 auto 48px;
-  text-align: center;
-}
-
-.sectionHead h2,
-.cta h2 {
-  font-weight: 700;
-  font-size: 34px;
-  margin: 0 0 14px;
-  letter-spacing: -0.01em;
-}
-
-.sectionHead p {
-  font-size: 17px;
-  color: var(--pc-text-muted);
-  margin: 0;
-}
-
-.whoGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-  gap: 22px;
-  max-width: 1100px;
-  margin: 0 auto;
-}
-
-.whoCard {
-  background: var(--pc-surface);
-  border-radius: 20px;
-  padding: 28px;
-  border: 1px solid var(--pc-border);
-}
-
-.whoCard div {
-  font-weight: 700;
-  font-size: 17px;
-  margin-bottom: 8px;
-}
-
-.whoCard p,
-.feat p {
-  font-size: 15px;
-  color: var(--pc-text-muted);
-  margin: 0;
-  line-height: 1.55;
-}
-
-.featGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 26px;
-  max-width: 1150px;
-  margin: 0 auto;
-}
-
-.feat {
-  padding: 8px;
-}
-
-.featIcon1,
-.featIcon2 {
-  width: 44px;
-  height: 44px;
-  border-radius: 12px;
-  background: var(--pc-accent1);
-}
-
-.featIcon2 {
-  background: var(--pc-accent2);
-}
-
-.feat h3 {
-  font-size: 18px;
-  margin: 18px 0 8px;
-}
-
-.templateShowcase {
-  max-width: 1100px;
-  margin: 0 auto;
-  background: var(--pc-surface-alt);
-  border-radius: 26px;
-  padding: 26px;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 22px;
-}
-
-.cta {
-  padding: 80px 6vw;
-  text-align: center;
-}
-
-.cta h2 {
-  font-size: 32px;
-  margin-bottom: 20px;
-}
-
-/* Footer */
-
-.footer {
-  padding: 36px 6vw;
-  border-top: 1px solid var(--pc-border);
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 14px;
-  align-items: center;
-  margin-top: auto;
-}
-
-.footerLogo {
-  font-weight: 800;
-  font-size: 20px;
-}
-
-.footerTag {
-  font-size: 14px;
-  color: var(--pc-text-muted);
-}
-
-/* Login and onboarding */
-
-.authMain {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 40px 6vw 90px;
-}
-
-.authCard {
-  width: 100%;
-  max-width: 420px;
-  background: var(--pc-surface);
-  border: 1px solid var(--pc-border);
-  border-radius: 22px;
-  padding: 40px 36px;
-  box-shadow: var(--pc-shadow);
-}
-
-.authCard h1 {
-  font-weight: 700;
-  font-size: 28px;
-  margin: 0 0 8px;
-  letter-spacing: -0.01em;
-}
-
-.authSub {
-  font-size: 15px;
-  color: var(--pc-text-muted);
-  margin: 0 0 28px;
-}
-
-.googleButton {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  width: 100%;
-  background: var(--pc-bg);
-  border: 1px solid var(--pc-border);
-  border-radius: 999px;
-  padding: 13px;
-  font: inherit;
-  font-weight: 600;
-  font-size: 14px;
-  cursor: pointer;
-  color: var(--pc-text);
-}
-
-.googleButton:hover {
-  border-color: var(--pc-accent1);
-}
-
-.authNote {
-  font-size: 13px;
-  color: var(--pc-text-muted);
-  text-align: center;
-  margin: 22px 0 0;
-}
-
-.authError {
-  font-size: 14px;
-  color: var(--pc-danger);
-  margin: 0 0 18px;
-}
-
-.yourPage {
-  font-size: 13px;
-  color: var(--pc-accent1);
-  margin: 6px 0 0;
-  word-break: break-all;
-}
-
-@media (max-width: 480px) {
-  .authCard {
-    padding: 30px 22px;
-  }
+  box-shadow: 0 30px 60px -30px rgba(1, 1, 7, 0.55);
 }

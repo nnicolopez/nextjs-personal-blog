@@ -1,0 +1,8 @@
+.orb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--pc-orb);
+  box-shadow: var(--pc-toggle-glow);
+  display: block;
+}

@@ -1,14 +1,14 @@
 "use client";
 
+import { Button, type ButtonProps } from "@mantine/core";
 import { useFormStatus } from "react-dom";
-import ui from "./ui.module.css";
 
-type Props = Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "type">;
+type Props = ButtonProps & Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "type" | "color" | "style">;
 
-/** Submit button that disables itself while its form's action runs. */
-const SubmitButton = ({ className = ui.btnPrimary, disabled, ...props }: Props) => {
+/** Mantine Button that submits its form and shows a spinner while the action runs. */
+const SubmitButton = ({ disabled, ...props }: Props) => {
   const { pending } = useFormStatus();
-  return <button type="submit" className={className} disabled={disabled || pending} aria-busy={pending} {...props} />;
+  return <Button type="submit" loading={pending} disabled={disabled} {...props} />;
 };
 
 export default SubmitButton;

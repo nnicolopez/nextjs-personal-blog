@@ -1,12 +1,11 @@
 "use client";
 
 import { useActionState, useState } from "react";
+import { Stack, Text, TextInput } from "@mantine/core";
 import { createAccountAction } from "@/app/actions";
-import FieldError from "@/components/ui/FieldError";
 import SubmitButton from "@/components/ui/SubmitButton";
-import ui from "@/components/ui/ui.module.css";
+import UsernameInput from "@/components/ui/UsernameInput";
 import type { Dictionary } from "@/lib/i18n";
-import styles from "./marketing.module.css";
 
 interface Props {
   t: Dictionary;
@@ -21,30 +20,29 @@ const WelcomeForm = ({ t, host, defaultName, defaultUsername }: Props) => {
 
   return (
     <form action={formAction}>
-      <div className={ui.field}>
-        <label className={ui.label} htmlFor="fullName">{t.fullNameLabel}</label>
-        <input id="fullName" name="fullName" className={ui.input} defaultValue={state.values?.fullName ?? defaultName} required maxLength={80} />
-        <FieldError message={state.errors?.fullName} />
-      </div>
-      <div className={ui.field}>
-        <label className={ui.label} htmlFor="username">{t.pickUsername}</label>
-        <div className={ui.prefixed}>
-          <span>{host}/</span>
-          <input
-            id="username"
-            name="username"
+      <Stack gap="md">
+        <TextInput
+          label={t.fullNameLabel}
+          name="fullName"
+          defaultValue={state.values?.fullName ?? defaultName}
+          required
+          maxLength={80}
+          error={state.errors?.fullName}
+        />
+        <div>
+          <UsernameInput
+            label={t.pickUsername}
+            host={host}
             value={username}
-            onChange={(e) => setUsername(e.target.value.toLowerCase())}
-            required
-            maxLength={30}
-            autoComplete="off"
-            spellCheck={false}
+            onChange={(e) => setUsername(e.currentTarget.value.toLowerCase())}
+            error={state.errors?.username}
           />
+          <Text fz={13} c="var(--pc-accent1)" mt={6} style={{ wordBreak: "break-all" }}>
+            {t.yourPage} {host}/{username || "…"}
+          </Text>
         </div>
-        <FieldError message={state.errors?.username} />
-        <p className={styles.yourPage}>{t.yourPage} {host}/{username || "…"}</p>
-      </div>
-      <SubmitButton className={`${ui.btnPrimary} ${ui.btnBlock}`}>{t.welcomeSubmit}</SubmitButton>
+        <SubmitButton fullWidth size="md" mt="xs">{t.welcomeSubmit}</SubmitButton>
+      </Stack>
     </form>
   );
 };

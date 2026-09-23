@@ -1,0 +1,29 @@
+.confirm {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.summary {
+  list-style: none;
+}
+
+.summary::-webkit-details-marker {
+  display: none;
+}
+
+/* Open, the toggle reads "Cancel": neutral instead of red. Mantine sets the
+   button colors inline, hence !important. */
+.confirm[open] .summary {
+  border-color: var(--pc-border) !important;
+  color: var(--pc-text) !important;
+}
+
+.open,
+.confirm[open] .closed {
+  display: none;
+}
+
+.confirm[open] .open {
+  display: inline;
+}
