@@ -1,5 +1,7 @@
 # Architecture Overview
 
+> **Stack change (Sep 2026):** authentication is Auth.js with Google and an email allowlist instead of Clerk, and the ORM is Drizzle instead of Prisma, on Next.js App Router. Sections below that mention Clerk or Prisma describe the original plan.
+
 This document describes the technical architecture of PersonalCMS.
 
 ## Table of Contents

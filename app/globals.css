@@ -1,0 +1,76 @@
+/*
+ * Design tokens from design/PersonalCMS.html ("violetCyan" accent preset).
+ * Day = Mantine light scheme, night = Mantine dark scheme.
+ */
+:root {
+  --pc-accent1: oklch(56% 0.16 300);
+  --pc-accent2: oklch(52% 0.14 210);
+  --pc-danger: oklch(56% 0.16 25);
+  --pc-bg: oklch(95% 0.015 230);
+  --pc-surface: oklch(99% 0.008 90);
+  --pc-surface-alt: oklch(90% 0.03 220);
+  --pc-border: oklch(82% 0.03 220);
+  --pc-text: oklch(22% 0.02 250);
+  --pc-text-muted: oklch(45% 0.02 250);
+  --pc-on-accent: oklch(99% 0.005 90);
+  --pc-chip-bg: oklch(88% 0.06 85 / 0.8);
+  --pc-chip-text: oklch(40% 0.1 60);
+  --pc-sky: linear-gradient(180deg, oklch(70% 0.09 235) 0%, oklch(80% 0.09 200) 45%, oklch(87% 0.09 85) 80%, oklch(90% 0.07 70) 100%);
+  --pc-stars-opacity: 0;
+  --pc-orb: oklch(88% 0.14 85);
+  --pc-orb-glow: 0 0 110px 40px oklch(88% 0.14 85 / 0.55);
+  --pc-toggle-glow: 0 0 8px oklch(88% 0.14 85 / 0.7);
+  --pc-mountain-far: oklch(68% 0.05 230);
+  --pc-mountain-near: oklch(42% 0.06 135);
+  --pc-hero-scrim: linear-gradient(180deg, transparent 0%, oklch(20% 0.03 250 / 0.1) 70%, oklch(15% 0.03 250 / 0.35) 100%);
+  --pc-hero-text: oklch(15% 0.02 250);
+  --pc-hero-text-muted: oklch(32% 0.03 250);
+  --pc-shadow: 0 30px 60px -35px oklch(5% 0.02 265 / 0.45);
+}
+
+[data-mantine-color-scheme="dark"] {
+  --pc-accent1: oklch(68% 0.17 300);
+  --pc-accent2: oklch(68% 0.14 210);
+  --pc-danger: oklch(68% 0.17 25);
+  --pc-bg: oklch(16% 0.025 265);
+  --pc-surface: oklch(21% 0.025 265);
+  --pc-surface-alt: oklch(19% 0.03 265);
+  --pc-border: oklch(32% 0.03 265);
+  --pc-text: oklch(92% 0.01 265);
+  --pc-text-muted: oklch(68% 0.02 265);
+  --pc-on-accent: oklch(12% 0.01 265);
+  --pc-chip-bg: oklch(30% 0.05 265 / 0.7);
+  --pc-chip-text: oklch(85% 0.05 265);
+  --pc-sky: linear-gradient(180deg, oklch(12% 0.03 270) 0%, oklch(18% 0.05 280) 45%, oklch(24% 0.05 285) 75%, oklch(20% 0.04 270) 100%);
+  --pc-stars-opacity: 1;
+  --pc-orb: oklch(92% 0.02 90);
+  --pc-orb-glow: 0 0 90px 30px oklch(85% 0.05 90 / 0.35);
+  --pc-toggle-glow: 0 0 8px oklch(92% 0.02 90 / 0.6);
+  --pc-mountain-far: oklch(28% 0.04 270);
+  --pc-mountain-near: oklch(13% 0.03 265);
+  --pc-hero-scrim: linear-gradient(180deg, transparent 0%, oklch(10% 0.02 265 / 0.35) 70%, oklch(8% 0.02 265 / 0.65) 100%);
+  --pc-hero-text: oklch(96% 0.01 265);
+  --pc-hero-text-muted: oklch(80% 0.02 265);
+  --pc-shadow: 0 30px 60px -35px oklch(5% 0.02 265 / 0.55);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-work-sans), sans-serif;
+  background: var(--pc-bg);
+  color: var(--pc-text);
+  transition: background 0.4s ease, color 0.4s ease;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: oklch(60% 0.02 265 / 0.6);
+}
+
+a {
+  color: inherit;
+}

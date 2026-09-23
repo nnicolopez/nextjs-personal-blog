@@ -15,27 +15,34 @@
     "nextjs",
     "mantine",
     "typescript",
-    "prisma",
-    "clerk"
+    "drizzle",
+    "neon",
+    "authjs"
   ],
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint . --ext .ts,.tsx,.js,.jsx --max-warnings 0"
+    "lint": "eslint . --ext .ts,.tsx,.js,.jsx --max-warnings 0",
+    "db:push": "drizzle-kit push",
+    "db:studio": "drizzle-kit studio"
   },
   "dependencies": {
     "@mantine/core": "^8.3.9",
     "@mantine/hooks": "^8.3.9",
-    "next": "^16.0.5",
+    "@neondatabase/serverless": "^1.1.0",
+    "drizzle-orm": "^0.45.3",
+    "next": "^16.3.6",
+    "next-auth": "^5.0.0-beta.32",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
-    "react-icons": "^5.2.1"
+    "server-only": "^0.0.1"
   },
   "devDependencies": {
     "@types/node": "^24.10.1",
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
+    "drizzle-kit": "^0.31.11",
     "eslint": "^8.57.1",
     "eslint-config-next": "^14.2.3",
     "postcss": "^8.5.6",

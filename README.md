@@ -55,18 +55,18 @@ This project recently migrated from Chakra UI to Mantine UI to provide better th
 
 ### What's Working Now
 
-- ✅ Static personal page with Hero section
-- ✅ Responsive card-based content sections
-- ✅ Dark/Light theme toggle
-- ✅ Contact form UI
-- ✅ Modern UI with Mantine components
-- ✅ TypeScript for type safety
-- ✅ Mobile-responsive design
+The app follows the prototype in `design/PersonalCMS.html`:
+
+- ✅ Landing page with night/day theme and ES/EN switch
+- ✅ Google sign-in plus onboarding to pick a username
+- ✅ Dashboard: overview, page editor (profile, 6 sections, social links), template picker, settings with account deletion
+- ✅ Public page at `/username` in two templates (Profile, Grid), with draft/published state
+- ✅ TypeScript, server actions, mobile-responsive layout
 
 ### What's Next (MVP)
 
-- 🔨 User authentication (Clerk)
-- 🔨 Database integration (Prisma + PostgreSQL)
+- ✅ Google sign-in with an email allowlist (Auth.js). The whole site is private for now
+- ✅ Database client and schema (Drizzle + Neon PostgreSQL)
 - 🔨 Dashboard for content editing
 - 🔨 Public user pages (`yourdomain.com/username`)
 - 🔨 Basic profile customization
@@ -123,7 +123,7 @@ All services used are **100% free** for the scope of this project.
 
 | Technology | Purpose | Why? |
 |------------|---------|------|
-| [Next.js 14](https://nextjs.org/) | React Framework | Server-side rendering, API routes, excellent DX |
+| [Next.js 16](https://nextjs.org/) (App Router) | React Framework | Server components, server actions, excellent DX |
 | [TypeScript](https://www.typescriptlang.org/) | Type Safety | Catch bugs early, better IDE support |
 | [Mantine 8](https://mantine.dev/) | UI Library | Comprehensive components, excellent theming system |
 | [React Hook Form](https://react-hook-form.com/) | Form Management | Performance, easy validation |
@@ -134,8 +134,8 @@ All services used are **100% free** for the scope of this project.
 
 | Technology | Purpose | Free Tier |
 |------------|---------|-----------|
-| [Clerk](https://clerk.com/) | Authentication | 10,000 monthly active users |
-| [Prisma](https://www.prisma.io/) | ORM | Open source, unlimited |
+| [Auth.js](https://authjs.dev/) + Google | Authentication | Open source, unlimited |
+| [Drizzle ORM](https://orm.drizzle.team/) | ORM | Open source, unlimited |
 | [PostgreSQL](https://www.postgresql.org/) | Database | Via Neon.tech |
 | [Neon](https://neon.tech/) | Database Hosting | 512 MB storage |
 | [Cloudinary](https://cloudinary.com/) | Image Storage | 25 GB storage, 25 GB bandwidth/month |
@@ -179,25 +179,24 @@ All services used are **100% free** for the scope of this project.
 4. **Open your browser**
    Navigate to [http://localhost:3000](http://localhost:3000)
 
-### Environment Setup (Coming Soon)
+### Environment Setup
 
-Once we integrate the backend services, you'll need to create a `.env.local` file:
+Copy the template and fill in your values:
 
 ```bash
-# Clerk Authentication
-NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=your_key_here
-CLERK_SECRET_KEY=your_secret_here
-
-# Database
-DATABASE_URL=your_neon_postgresql_url
-
-# Cloudinary
-NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=your_cloud_name
-CLOUDINARY_API_KEY=your_api_key
-CLOUDINARY_API_SECRET=your_api_secret
+cp .env.example .env.local
 ```
 
-See [`docs/SETUP.md`](docs/SETUP.md) for detailed setup instructions (coming soon).
+| Variable | Where to get it |
+|----------|-----------------|
+| `DATABASE_URL` | Neon project connection string |
+| `AUTH_GOOGLE_ID` / `AUTH_GOOGLE_SECRET` | Google Cloud Console, OAuth client ID (web application) |
+| `AUTH_SECRET` | `openssl rand -base64 32` |
+| `ALLOWED_EMAILS` | Comma separated emails that can sign in. Empty means nobody can |
+
+Then create the tables with `npm run db:push`.
+
+**Access is private:** `proxy.ts` sends every request without an allowlisted session to `/login`, and the site asks search engines not to index it. On Vercel, set the same variables in Project Settings → Environment Variables.
 
 ---
 
@@ -212,17 +211,19 @@ nextjs-personal-blog/
 │   ├── MainNav/         # Navigation bar with theme toggle
 │   ├── FeaturedPosts/   # Card-based content sections
 │   └── ui/              # Reusable UI components
-├── pages/               # Next.js pages (routing)
-│   ├── api/            # API routes
-│   ├── _app.tsx        # App wrapper (Mantine provider)
-│   ├── _document.tsx   # HTML document structure
-│   ├── index.tsx       # Home page
+├── app/                 # Next.js App Router
+│   ├── layout.tsx      # Root layout (Mantine provider)
+│   ├── page.tsx        # Home page
+│   ├── login/          # Google sign-in page
+│   ├── api/auth/       # Auth.js endpoints
 │   └── contact/        # Contact form page
+├── auth.ts              # Auth.js config and email allowlist
+├── proxy.ts             # Protects every route (Next.js middleware)
+├── db/                  # Drizzle schema and Neon client
 ├── styles/              # Global styles and theme
 │   └── theme.ts        # Mantine theme configuration
 ├── public/              # Static assets
 ├── docs/                # Documentation
-├── prisma/              # Database schema (coming soon)
 ├── lib/                 # Utility functions (coming soon)
 └── hooks/               # Custom React hooks (coming soon)
 ```
@@ -239,11 +240,11 @@ This roadmap is designed for flexible development (5-10 hours/week). Tasks are b
 
 #### Backend Setup
 - [ ] Set up Neon PostgreSQL database
-- [ ] Initialize Prisma ORM
-- [ ] Design database schema (User, Page, Section models)
-- [ ] Create initial Prisma migrations
-- [ ] Set up Clerk authentication
-- [ ] Create authentication middleware
+- [x] Initialize Drizzle ORM
+- [x] Design database schema (User, Page, Section models)
+- [ ] Push the schema to Neon (`npm run db:push`)
+- [x] Set up Auth.js with Google and an email allowlist
+- [x] Create authentication middleware (`proxy.ts`)
 
 #### API Development
 - [ ] Create API route structure
@@ -385,13 +386,12 @@ New to these technologies? Here are great resources to get started:
 - [Mantine Documentation](https://mantine.dev/getting-started/)
 - [Mantine Examples](https://ui.mantine.dev/)
 
-### Prisma
-- [Prisma Quickstart](https://www.prisma.io/docs/getting-started/quickstart)
-- [Prisma with Next.js](https://www.prisma.io/nextjs)
+### Drizzle
+- [Drizzle with Neon](https://orm.drizzle.team/docs/get-started/neon-new)
 
-### Clerk
-- [Clerk Documentation](https://clerk.com/docs)
-- [Clerk + Next.js Guide](https://clerk.com/docs/quickstarts/nextjs)
+### Auth.js
+- [Auth.js Documentation](https://authjs.dev/)
+- [Google provider](https://authjs.dev/getting-started/providers/google)
 
 ### React Hook Form + Zod
 - [React Hook Form Docs](https://react-hook-form.com/get-started)
