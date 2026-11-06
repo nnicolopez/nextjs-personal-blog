@@ -37,7 +37,7 @@ const EditorPage = async ({ searchParams }: Props) => {
               t={t}
               host={host}
               avatarUrl={page.avatarUrl}
-              values={{ fullName: page.fullName, username: user.username, bio: page.bio }}
+              values={{ fullName: page.fullName, username: user.username, bio: page.bio, headline: page.headline }}
             />
           )}
           {current === "social" && (

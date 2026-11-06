@@ -1,12 +1,15 @@
 import "server-only";
-import { asc, eq } from "drizzle-orm";
+import { asc, desc, eq } from "drizzle-orm";
 import { cache } from "react";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { requireUserEmail } from "@/auth";
-import { db, pages, sections, users } from "@/db";
+import { db, entries, instruments, pages, practices, sections, users } from "@/db";
 
 export type Sections = (typeof sections.$inferSelect)[];
+export type Practice = typeof practices.$inferSelect;
+export type Instrument = typeof instruments.$inferSelect;
+export type Entry = typeof entries.$inferSelect;
 export type Account = NonNullable<Awaited<ReturnType<typeof findAccountByEmail>>>;
 
 async function findAccountByEmail(email: string) {
@@ -17,12 +20,15 @@ async function findAccountByEmail(email: string) {
     .where(eq(users.email, email))
     .limit(1);
   if (!row) return null;
-  const pageSections = await db
-    .select()
-    .from(sections)
-    .where(eq(sections.pageId, row.page.id))
-    .orderBy(asc(sections.order));
-  return { ...row, sections: pageSections };
+  const pageId = row.page.id;
+  const [pageSections, pagePractices, pageInstruments, pageEntries] = await Promise.all([
+    db.select().from(sections).where(eq(sections.pageId, pageId)).orderBy(asc(sections.order)),
+    db.select().from(practices).where(eq(practices.pageId, pageId)).orderBy(asc(practices.order), asc(practices.createdAt)),
+    db.select().from(instruments).where(eq(instruments.pageId, pageId)).orderBy(asc(instruments.order), asc(instruments.createdAt)),
+    // Newest first. A personal journal stays small; paginate here if it ever grows
+    db.select().from(entries).where(eq(entries.pageId, pageId)).orderBy(desc(entries.date), desc(entries.createdAt)),
+  ]);
+  return { ...row, sections: pageSections, practices: pagePractices, instruments: pageInstruments, entries: pageEntries };
 }
 
 /**

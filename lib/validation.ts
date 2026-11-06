@@ -3,7 +3,20 @@ const RESERVED_USERNAMES = new Set([
   "api", "dashboard", "login", "logout", "welcome", "settings", "admin", "robots.txt", "favicon.ico", "_next",
 ]);
 
-export const LIMITS = { fullName: 80, bio: 600, title: 80, content: 5000, url: 200 };
+export const LIMITS = {
+  fullName: 80, bio: 600, headline: 120, title: 80, content: 5000, url: 200,
+  // Practices, instruments and journal
+  name: 80, slug: 60, summary: 300, longText: 3000, lines: 2000, description: 300,
+  material: 40, materials: 20, images: 12, caption: 120, links: 6, linkLabel: 40, entryTitle: 120,
+};
+
+export function isSlug(value: string) {
+  return value.length <= LIMITS.slug && /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(value);
+}
+
+export function isIsoDate(value: string) {
+  return /^\d{4}-\d{2}-\d{2}$/.test(value) && !Number.isNaN(Date.parse(`${value}T00:00:00Z`));
+}
 
 export function normalizeUsername(value: string) {
   return value.trim().toLowerCase();

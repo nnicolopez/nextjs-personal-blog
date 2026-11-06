@@ -10,7 +10,7 @@ import { toPublicPageData } from "@/lib/page-data";
 const TemplatePage = async () => {
   const account = await requireAccount();
   const { lang, t } = await getDictionary();
-  const data = toPublicPageData(account);
+  const data = toPublicPageData(account, t, lang);
 
   return (
     <>

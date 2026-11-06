@@ -1,13 +1,17 @@
 import { Anchor, Avatar, Flex, Paper, SimpleGrid, Stack, Text, Title } from "@mantine/core";
 import type { SocialLinks, Template } from "@/db";
+import PracticesPage from "./practices/PracticesPage";
+import type { PracticesData } from "./practices/types";
 
 export interface PublicPageData {
   fullName: string;
   bio: string;
+  headline?: string;
   avatarUrl: string | null;
   socialLinks: SocialLinks;
   template: Template;
   sections: { id: string; title: string; content: string }[];
+  practices?: PracticesData;
 }
 
 const SOCIAL_LABELS = { linkedin: "LinkedIn", github: "GitHub", instagram: "Instagram" } as const;
@@ -46,6 +50,10 @@ const SectionCard = ({ title, content, compact }: { title: string; content: stri
 
 /** The published page, in either of the two templates from the design. */
 const PublicPage = ({ data }: { data: PublicPageData }) => {
+  if (data.template === "practices" && data.practices) {
+    return <PracticesPage data={data} practices={data.practices} />;
+  }
+
   if (data.template === "grid") {
     return (
       <Flex gap={36} maw={1100} mx="auto" px="6vw" pt={20} pb={80} align="flex-start" direction={{ base: "column", sm: "row" }}>

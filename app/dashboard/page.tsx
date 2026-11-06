@@ -75,7 +75,7 @@ const DashboardPage = async () => {
 
       <Group align="flex-start" gap={24}>
         <Link href={`/${user.username}`} style={{ flex: "1 1 380px", minWidth: 0, textDecoration: "none" }}>
-          <PagePreview data={toPublicPageData(account)} address={`${host}/${user.username}`} height={300} scale={0.45} />
+          <PagePreview data={toPublicPageData(account, t, lang)} address={`${host}/${user.username}`} height={300} scale={0.45} />
         </Link>
         <Paper flex="1 1 300px" miw={0} p={22}>
           <Text fz={14} fw={700} mb={14}>{t.sections}</Text>

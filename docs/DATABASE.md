@@ -15,6 +15,9 @@ This document describes the database schema for PersonalCMS using PostgreSQL and
 - [Migration Strategy](#migration-strategy)
 - [Future Schema Evolution](#future-schema-evolution)
 
+
+> **Practices, instruments and journal (Nov 2026):** three tables hang off `pages`: `practices` (what the owner does, with a palette color and its order in the sequencer), `instruments` (what they built for a practice: app, hardware, document or routine, with the "what I did / what AI did" split, materials, demo, screenshots and public links) and `entries` (the journal; each entry belongs to a practice and optionally to an instrument). `pages.headline` is the big line on the "practices" template. Apply with `npm run db:push`. Design notes: [`design/v2/README.md`](./design/v2/README.md).
+
 ---
 
 ## Overview
