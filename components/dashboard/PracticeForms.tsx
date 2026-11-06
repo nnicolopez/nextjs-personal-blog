@@ -30,7 +30,7 @@ export const PracticeCard = ({ t, practice, counts, isFirst, isLast }: Props) =>
           <ColorSwatch color={PRACTICE_HEX[color]} size={14} withShadow={false} />
           <Text fw={700}>{practice.name}</Text>
           <Text fz={13} c="dimmed">
-            {counts.instruments} {t.countInstruments}, {counts.entries} {t.countEntries}
+            {counts.instruments} {counts.instruments === 1 ? t.practicesPublic.instrumentOne : t.countInstruments}, {counts.entries} {counts.entries === 1 ? t.practicesPublic.entryOne : t.countEntries}
           </Text>
         </Group>
         <Group gap={6} wrap="nowrap">

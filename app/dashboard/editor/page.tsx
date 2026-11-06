@@ -18,9 +18,11 @@ const EditorPage = async ({ searchParams }: Props) => {
   const { s = "profile" } = await searchParams;
   const { page, user, sections } = account;
 
+  // The practices template doesn't show sections, so they'd only be noise here
+  const usesSections = page.template !== "practices";
   const navItems = [
     { key: "profile", label: t.profile },
-    ...sections.map((section) => ({ key: section.type as string, label: t.sectionLabels[section.type] })),
+    ...(usesSections ? sections.map((section) => ({ key: section.type as string, label: t.sectionLabels[section.type] })) : []),
     { key: "social", label: t.socialLinks },
   ];
   const current = navItems.some((item) => item.key === s) ? s : "profile";
