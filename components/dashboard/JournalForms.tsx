@@ -8,9 +8,11 @@ import type { EntryKind } from "@/db/schema";
 import type { Dictionary } from "@/lib/i18n";
 import { SaveRow } from "./EditorForms";
 import { ButtonLink } from "@/components/ui/Links";
+import UploadButton from "./UploadButton";
 
 interface Props {
   t: Dictionary;
+  username: string;
   practices: { id: string; name: string }[];
   instruments: { id: string; name: string; practiceId: string }[];
   entry: {
@@ -26,11 +28,12 @@ interface Props {
 }
 
 /** New or existing journal entry. Instruments are filtered by the chosen practice. */
-export const EntryForm = ({ t, practices, instruments, entry }: Props) => {
+export const EntryForm = ({ t, username, practices, instruments, entry }: Props) => {
   const [state, formAction] = useActionState(saveEntryAction, {});
   const [practiceId, setPracticeId] = useState(state.values?.practiceId ?? entry.practiceId);
   const [instrumentId, setInstrumentId] = useState<string | null>(state.values?.instrumentId ?? entry.instrumentId);
   const [kind, setKind] = useState<EntryKind>(entry.kind);
+  const [mediaUrl, setMediaUrl] = useState(state.values?.mediaUrl ?? entry.mediaUrl ?? "");
   const err = state.errors ?? {};
   const options = instruments.filter((i) => i.practiceId === practiceId);
 
@@ -74,7 +77,19 @@ export const EntryForm = ({ t, practices, instruments, entry }: Props) => {
         <TextInput label={t.titleLabel} name="title" defaultValue={state.values?.title ?? entry.title} required maxLength={120} error={err.title} />
         <Textarea label={t.entryBodyLabel} name="body" autosize minRows={3} maxRows={12} defaultValue={state.values?.body ?? entry.body} maxLength={3000} error={err.body} />
         {kind !== "note" && (
-          <TextInput label={t.mediaUrlLabel} name="mediaUrl" defaultValue={state.values?.mediaUrl ?? entry.mediaUrl ?? ""} inputMode="url" maxLength={200} error={err.mediaUrl} />
+          <Stack gap={8}>
+            <TextInput label={t.mediaUrlLabel} name="mediaUrl" value={mediaUrl} onChange={(e) => setMediaUrl(e.currentTarget.value)} inputMode="url" maxLength={300} error={err.mediaUrl} />
+            {(kind === "photo" || kind === "audio") && (
+              <UploadButton
+                username={username}
+                folder="bitacora"
+                kind={kind === "audio" ? "audio" : "image"}
+                label={kind === "audio" ? t.uploadAudio : t.uploadPhoto}
+                labels={{ uploading: t.uploading, tooBig: t.tooBig, failed: t.uploadFailed }}
+                onUploaded={(url) => setMediaUrl(url)}
+              />
+            )}
+          </Stack>
         )}
         {entry.id ? (
           <Group gap={10}>

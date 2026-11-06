@@ -28,6 +28,7 @@ import type { Dictionary } from "@/lib/i18n";
 import { lines, PRACTICE_HEX, slugify } from "@/lib/practices";
 import { SaveRow } from "./EditorForms";
 import classes from "./InstrumentEditor.module.css";
+import UploadButton from "./UploadButton";
 
 export interface InstrumentDraft {
   id: string | null;
@@ -212,21 +213,45 @@ const InstrumentEditor = ({ t, labels, initial, practices, buildLog, fullName, b
               <TextInput label={t.demoUrlLabel} name="demoUrl" value={draft.demoUrl} onChange={(e) => set("demoUrl", e.currentTarget.value)} inputMode="url" maxLength={200} error={err.demoUrl} />
             )}
             <div>
-              <Text fz={13} fw={600} mb={7}>{t.imagesLabel}</Text>
-              <Stack gap={6}>
+              <Text fz={13} fw={600}>{t.imagesLabel}</Text>
+              <Text fz={12} c="dimmed" mb={8}>{t.coverHint}</Text>
+              <Stack gap={8}>
                 {draft.images.map((image, k) => (
-                  <Group key={k} gap={6} wrap="nowrap">
-                    <TextInput flex={3} placeholder={t.imageUrl} aria-label={t.imageUrl} value={image.url} inputMode="url"
-                      onChange={(e) => set("images", draft.images.map((x, j) => (j === k ? { ...x, url: e.currentTarget.value } : x)))} />
-                    <TextInput flex={2} placeholder={t.imageCaption} aria-label={t.imageCaption} value={image.caption} maxLength={120}
-                      onChange={(e) => set("images", draft.images.map((x, j) => (j === k ? { ...x, caption: e.currentTarget.value } : x)))} />
-                    <ActionIcon size={36} aria-label={t.remove} onClick={() => set("images", draft.images.filter((_, j) => j !== k))}>✕</ActionIcon>
+                  <Group key={k} gap={8} wrap="nowrap" align="center">
+                    <Box w={56} h={42} style={{ flexShrink: 0, borderRadius: 4, overflow: "hidden", background: "var(--pc-surface-alt)" }}>
+                      {image.url && (
+                        // eslint-disable-next-line @next/next/no-img-element -- remote thumbnail of unknown size
+                        <img src={image.url} alt="" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+                      )}
+                    </Box>
+                    <Stack gap={4} flex={1} miw={0}>
+                      <TextInput size="xs" placeholder={t.imageCaption} aria-label={t.imageCaption} value={image.caption} maxLength={120}
+                        onChange={(e) => set("images", draft.images.map((x, j) => (j === k ? { ...x, caption: e.currentTarget.value } : x)))} />
+                      {!image.url.includes(".blob.vercel-storage.com") && (
+                        <TextInput size="xs" placeholder={t.imageUrl} aria-label={t.imageUrl} value={image.url} inputMode="url"
+                          onChange={(e) => set("images", draft.images.map((x, j) => (j === k ? { ...x, url: e.currentTarget.value } : x)))} />
+                      )}
+                    </Stack>
+                    {k > 0 && (
+                      <Button variant="subtle" size="compact-xs" onClick={() => set("images", [image, ...draft.images.filter((_, j) => j !== k)])}>{t.makeCover}</Button>
+                    )}
+                    <ActionIcon size={30} aria-label={t.remove} onClick={() => set("images", draft.images.filter((_, j) => j !== k))}>✕</ActionIcon>
                   </Group>
                 ))}
               </Stack>
               {err.images && <Text fz={13} c="red" mt={4}>{err.images}</Text>}
               {draft.images.length < 12 && (
-                <Button variant="subtle" size="compact-sm" mt={6} onClick={() => set("images", [...draft.images, { url: "", caption: "" }])}>{t.addImage}</Button>
+                <Group gap={8} mt={10} align="flex-start">
+                  <UploadButton
+                    username={basePath.slice(1)}
+                    folder={draft.slug || "instrumento"}
+                    multiple
+                    label={t.uploadImages}
+                    labels={{ uploading: t.uploading, tooBig: t.tooBig, failed: t.uploadFailed }}
+                    onUploaded={(url, fileName) => setDraft((d) => ({ ...d, images: [...d.images, { url, caption: fileName.replace(/[-_]+/g, " ") }].slice(0, 12) }))}
+                  />
+                  <Button variant="subtle" size="compact-sm" onClick={() => set("images", [...draft.images, { url: "", caption: "" }])}>{t.addImage}</Button>
+                </Group>
               )}
             </div>
 

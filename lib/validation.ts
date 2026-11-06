@@ -4,7 +4,7 @@ const RESERVED_USERNAMES = new Set([
 ]);
 
 export const LIMITS = {
-  fullName: 80, bio: 600, headline: 120, title: 80, content: 5000, url: 200,
+  fullName: 80, bio: 600, headline: 120, title: 80, content: 5000, url: 400,
   // Practices, instruments and journal
   name: 80, slug: 60, summary: 300, longText: 3000, lines: 2000, description: 300,
   material: 40, materials: 20, images: 12, caption: 120, links: 6, linkLabel: 40, entryTitle: 120,

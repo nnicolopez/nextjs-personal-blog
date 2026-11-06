@@ -44,6 +44,7 @@ const JournalPage = async ({ searchParams }: Props) => {
           <EntryForm
             key={editing?.id ?? "new"}
             t={t}
+            username={account.user.username}
             practices={practices.map(({ id, name }) => ({ id, name }))}
             instruments={instruments.map(({ id, name, practiceId }) => ({ id, name, practiceId }))}
             entry={
