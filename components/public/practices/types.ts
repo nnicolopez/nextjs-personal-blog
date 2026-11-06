@@ -75,6 +75,18 @@ export interface PracticesLabels {
   previous: string;
   next: string;
   demo: string;
+  practicesTitle: string;
+  practicesSub: string;
+  consistency: string;
+  featured: string;
+  featuredAbove: string;
+  seeInstrument: string;
+  latestEntry: string;
+  instrumentOne: string;
+  instrumentMany: string;
+  entryOne: string;
+  entryMany: string;
+  madeWith: string;
 }
 
 export interface PracticesData {

@@ -23,27 +23,48 @@ const DashboardPage = async () => {
   const { page, user, sections } = account;
 
   if (!page.publishedAt) {
-    const steps = [
-      { text: t.step1, action: <ButtonLink href="/dashboard/editor" variant="subtle" size="compact-sm">{t.go}</ButtonLink> },
-      { text: t.step2, action: <ButtonLink href="/dashboard/template" variant="subtle" size="compact-sm">{t.go}</ButtonLink> },
-      { text: t.step3, action: <PublishButton isPublished={false} label={t.publishGo} variant="subtle" size="compact-sm" /> },
-    ];
+    // The practices template has a longer setup; each step shows whether it's done
+    const usesPractices = page.template === "practices";
+    const steps = usesPractices
+      ? [
+          { text: t.stepProfile, done: Boolean(page.headline || page.bio), href: "/dashboard/editor" },
+          { text: t.stepPractices, done: account.practices.length > 0, href: "/dashboard/practices" },
+          { text: t.stepInstruments, done: account.instruments.length > 0, href: "/dashboard/instruments" },
+          { text: t.stepJournal, done: account.entries.length > 0, href: "/dashboard/journal" },
+        ]
+      : [
+          { text: t.step1, done: false, href: "/dashboard/editor" },
+          { text: t.step2, done: false, href: "/dashboard/template" },
+        ];
+    const allDone = steps.every((step) => step.done);
     return (
       <>
         <AppHeader title={t.navSummary} lang={lang} />
-        <Paper maw={560} p={32}>
-          <Text fz={12} fw={700} c="var(--pc-accent1)" mb={8}>{t.startHere}</Text>
-          <Title order={2} fz={20} mb={18}>{t.threeSteps}</Title>
-          <Stack gap={12}>
-            {steps.map((step, i) => (
-              <Group key={step.text} gap={12} p={14} bg="var(--pc-surface-alt)" style={{ borderRadius: 12 }} wrap="nowrap">
-                <ThemeIcon radius="xl" size={24} fz={13} fw={700}>{i + 1}</ThemeIcon>
-                <Text fz={14} flex={1}>{step.text}</Text>
-                {step.action}
+        <Group align="flex-start" gap={24}>
+          <Paper flex="1 1 380px" maw={560} p={32}>
+            <Text fz={12} fw={700} c="var(--pc-accent1)" mb={8}>{t.startHere}</Text>
+            <Title order={2} fz={20} mb={18}>{usesPractices ? t.setupPractices : t.threeSteps}</Title>
+            <Stack gap={10}>
+              {steps.map((step, i) => (
+                <Group key={step.text} gap={12} p={14} bg="var(--pc-surface-alt)" style={{ borderRadius: 12 }} wrap="nowrap">
+                  <ThemeIcon radius="xl" size={24} fz={13} fw={700} variant={step.done ? "filled" : "light"} aria-label={step.done ? t.done : undefined}>
+                    {step.done ? "✓" : i + 1}
+                  </ThemeIcon>
+                  <Text fz={14} flex={1} td={step.done ? "line-through" : undefined} c={step.done ? "dimmed" : undefined}>{step.text}</Text>
+                  <ButtonLink href={step.href} variant="subtle" size="compact-sm">{step.done ? t.editLabel : t.go}</ButtonLink>
+                </Group>
+              ))}
+              <Group gap={12} p={14} bg="var(--pc-surface-alt)" style={{ borderRadius: 12 }} wrap="nowrap">
+                <ThemeIcon radius="xl" size={24} fz={13} fw={700} variant="light">{steps.length + 1}</ThemeIcon>
+                <Text fz={14} flex={1}>{t.step3}</Text>
+                <PublishButton isPublished={false} label={t.publishGo} variant={allDone ? "filled" : "subtle"} size="compact-sm" />
               </Group>
-            ))}
-          </Stack>
-        </Paper>
+            </Stack>
+          </Paper>
+          <Link href={`/${user.username}`} style={{ flex: "1 1 360px", minWidth: 0, textDecoration: "none" }}>
+            <PagePreview data={toPublicPageData(account, t, lang)} address={`${host}/${user.username}`} height={420} scale={0.4} />
+          </Link>
+        </Group>
       </>
     );
   }
@@ -60,9 +81,15 @@ const DashboardPage = async () => {
         <Stat label={t.lastEdit}>
           <Text fz={20} fw={700}>{timeAgo(page.updatedAt, lang, t.justNow)}</Text>
         </Stat>
-        <Stat label={t.visibleSections}>
-          <Text fz={26} fw={700}>{sections.filter((s) => s.isVisible).length}/{sections.length}</Text>
-        </Stat>
+        {page.template === "practices" ? (
+          <Stat label={t.navInstruments}>
+            <Text fz={26} fw={700}>{account.instruments.filter((i) => i.isVisible).length}<Text span fz={14} c="dimmed" fw={500}> / {account.entries.length} {t.countEntries}</Text></Text>
+          </Stat>
+        ) : (
+          <Stat label={t.visibleSections}>
+            <Text fz={26} fw={700}>{sections.filter((s) => s.isVisible).length}/{sections.length}</Text>
+          </Stat>
+        )}
         <Stat label={t.publishing}>
           <PublishButton
             isPublished={page.isPublished}

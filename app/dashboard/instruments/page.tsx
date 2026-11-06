@@ -1,5 +1,5 @@
-import { Badge, Box, Group, NavLink, Paper, Stack, Text } from "@mantine/core";
-import Link from "next/link";
+import { Box, Group, Paper, Stack, Text } from "@mantine/core";
+import InstrumentNav from "@/components/dashboard/InstrumentNav";
 import AppHeader from "@/components/dashboard/AppHeader";
 import InstrumentEditor, { type InstrumentDraft } from "@/components/dashboard/InstrumentEditor";
 import { ButtonLink } from "@/components/ui/Links";
@@ -71,25 +71,21 @@ const InstrumentsPage = async ({ searchParams }: Props) => {
       <AppHeader title={t.navInstruments} lang={lang} />
       <Text fz={15} c="dimmed" maw={560} mb={24}>{t.instrumentsSub}</Text>
       <Group align="flex-start" gap={24} wrap="nowrap" style={{ flexWrap: "wrap" }}>
-        <Stack component="nav" aria-label={t.navInstruments} gap={2} w={{ base: "100%", md: 230 }} style={{ flexShrink: 0 }}>
+        <Stack gap={2} w={{ base: "100%", md: 230 }} style={{ flexShrink: 0 }}>
           <ButtonLink href="/dashboard/instruments?i=new" variant={isNew ? "filled" : "default"} mb={10}>{t.newInstrument}</ButtonLink>
           {instruments.length === 0 && <Text fz={13} c="dimmed">{t.noInstruments}</Text>}
-          {instruments.map((i) => (
-            <NavLink
-              key={i.id}
-              component={Link}
-              href={`/dashboard/instruments?i=${i.id}`}
-              active={i.id === current?.id}
-              variant="light"
-              label={i.name}
-              description={data.labels.kind[i.kind]}
-              leftSection={<Box w={8} h={8} style={{ borderRadius: "50%", background: practiceColor.get(i.practiceId) }} />}
-              rightSection={
-                !i.isVisible ? <Badge size="xs" color="gray">{t.hiddenTag}</Badge>
-                  : i.featured ? <Badge size="xs">{t.featuredTag}</Badge> : null
-              }
-            />
-          ))}
+          <InstrumentNav
+            currentId={current?.id}
+            labels={{ hidden: t.hiddenTag, featured: t.featuredTag, nav: t.navInstruments }}
+            items={instruments.map((i) => ({
+              id: i.id,
+              name: i.name,
+              kindLabel: data.labels.kind[i.kind],
+              color: practiceColor.get(i.practiceId) ?? "#55615F",
+              hidden: !i.isVisible,
+              featured: i.featured,
+            }))}
+          />
         </Stack>
         <Box flex={1} miw={0} w="100%">
           <InstrumentEditor

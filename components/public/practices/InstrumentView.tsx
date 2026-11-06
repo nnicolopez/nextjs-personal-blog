@@ -1,4 +1,4 @@
-import { embedUrl } from "@/lib/practices";
+import { embedUrl, slugify } from "@/lib/practices";
 import { formatDay } from "./format";
 import type { PracticesLabels, PublicEntry, PublicInstrument, PublicPractice } from "./types";
 import s from "./practices.module.css";
@@ -77,7 +77,7 @@ const InstrumentView = ({ fullName, basePath, instrument: i, practice, buildLog,
 
   return (
     <div className={s.root} style={{ "--c": practice?.color ?? "#55615F" } as Vars}>
-      <header className={`${s.wrap} ${s.top}`}>
+      <header className={`${s.wrap} ${s.detailTop}`}>
         <a className={s.brand} href={basePath}>{fullName}</a>
         <a className={s.cond} href={`${basePath}#instrumentos`}>{labels.allInstruments}</a>
       </header>
@@ -85,7 +85,11 @@ const InstrumentView = ({ fullName, basePath, instrument: i, practice, buildLog,
       <main className={s.wrap}>
         <section className={s.detailHead}>
           <div>
-            {practice && <span className={s.tag}><span className={s.dot} />{practice.name}</span>}
+            {practice && (
+              <a className={`${s.tag} ${s.tagLink}`} href={`${basePath}#p-${slugify(practice.name)}`}>
+                <span className={s.dot} />{practice.name}
+              </a>
+            )}
             <h1 className={s.detailH1}>{i.name}</h1>
             {i.summary && <p className={s.summary}>{i.summary}</p>}
           </div>
