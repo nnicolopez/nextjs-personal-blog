@@ -8,7 +8,7 @@ import UsernameInput from "@/components/ui/UsernameInput";
 import type { Dictionary } from "@/lib/i18n";
 
 /** Save button plus a "Saved ✓" note for a few seconds after a save. */
-const SaveRow = ({ state, t }: { state: FormState; t: Dictionary }) => {
+export const SaveRow = ({ state, t }: { state: FormState; t: Dictionary }) => {
   // Each save returns a new state object; remember which one already timed out
   const [dismissed, setDismissed] = useState<FormState | null>(null);
   const showSaved = state.ok && dismissed !== state;
@@ -34,7 +34,7 @@ interface ProfileProps {
   t: Dictionary;
   host: string;
   avatarUrl: string | null;
-  values: { fullName: string; username: string; bio: string };
+  values: { fullName: string; username: string; bio: string; headline: string };
 }
 
 export const ProfileForm = ({ t, host, avatarUrl, values }: ProfileProps) => {
@@ -60,6 +60,14 @@ export const ProfileForm = ({ t, host, avatarUrl, values }: ProfileProps) => {
           host={host}
           defaultValue={state.values?.username ?? values.username}
           error={state.errors?.username}
+        />
+        <TextInput
+          label={t.headlineLabel}
+          description={t.headlineHint}
+          name="headline"
+          defaultValue={state.values?.headline ?? values.headline}
+          maxLength={120}
+          error={state.errors?.headline}
         />
         <Textarea
           label={t.bioLabel}

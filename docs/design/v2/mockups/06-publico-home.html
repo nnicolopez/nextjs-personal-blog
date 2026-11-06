@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nico — Prácticas e instrumentos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#ECEEE9; --paper-2:#E1E4DE; --ink:#1C2629; --ink-soft:#55615F; --rule:#C7CCC4;
+  --musica:#A97C1F; --entreno:#2E6B57; --taller:#2F57C4; --codigo:#8B3D8F;
+  --max:1200px; --gutter:24px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Archivo',system-ui,sans-serif;font-size:17px;line-height:1.55;color:var(--ink);background:var(--paper);-webkit-font-smoothing:antialiased}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 var(--gutter)}
+.cond{font-stretch:75%;font-weight:560;font-size:14px;letter-spacing:.01em}
+
+/* header */
+.top{display:flex;align-items:baseline;justify-content:space-between;gap:24px;padding-block:28px;border-bottom:1px solid var(--rule)}
+.brand{font-stretch:118%;font-weight:750;font-size:21px;text-decoration:none;letter-spacing:-.01em}
+.nav{display:flex;gap:22px;list-style:none;flex-wrap:wrap}
+.nav a{text-decoration:none;font-stretch:75%;font-weight:560;font-size:15px;display:flex;align-items:center;gap:7px}
+.nav a:hover{text-decoration:underline;text-underline-offset:4px}
+.dot{width:8px;height:8px;border-radius:50%;display:inline-block;flex:none}
+
+/* hero */
+.hero{display:grid;grid-template-columns:5fr 7fr;gap:48px;padding-block:72px 64px;align-items:start;padding-inline:var(--gutter)}
+h1{font-stretch:118%;font-weight:750;font-size:clamp(38px,5vw,62px);line-height:1.02;letter-spacing:-.025em;max-width:11ch}
+.lede{margin-top:24px;max-width:42ch;color:var(--ink-soft)}
+.lede strong{color:var(--ink);font-weight:600}
+.contact{display:inline-block;margin-top:28px;font-weight:600;text-underline-offset:5px}
+
+/* sequencer */
+.seq{background:var(--ink);color:var(--paper);border-radius:6px;padding:28px 26px 20px}
+.seq-head{display:grid;grid-template-columns:132px repeat(16,1fr);gap:6px;margin-bottom:8px;color:#9AA6A3}
+.seq-head span{font-stretch:75%;font-size:12px;font-weight:500;white-space:nowrap}
+.row{display:grid;grid-template-columns:132px repeat(16,1fr);gap:6px;margin-bottom:6px;cursor:pointer;border-radius:3px;background:none;border:0;color:inherit;font:inherit;width:100%;text-align:left;padding:0}
+.row-label{font-stretch:75%;font-weight:600;font-size:16px;display:flex;align-items:center;gap:8px;padding-right:8px}
+.cell{aspect-ratio:1;border-radius:2px;background:#2C383B;transition:background .18s, opacity .18s}
+.row[aria-pressed="true"] .row-label{text-decoration:underline;text-underline-offset:4px}
+.seq.filtering .row[aria-pressed="false"]{opacity:.35}
+.cell.on-1{background:color-mix(in srgb,var(--c) 45%,#2C383B)}
+.cell.on-2{background:color-mix(in srgb,var(--c) 75%,#2C383B)}
+.cell.on-3{background:var(--c);box-shadow:0 0 0 1px color-mix(in srgb,var(--c) 60%,white) inset}
+.cell.wait{background:#2C383B!important;box-shadow:none!important}
+.playhead{outline:1px solid #D9DED8;outline-offset:1px}
+.seq-foot{display:flex;justify-content:space-between;gap:16px;margin-top:14px;color:#9AA6A3;font-size:14px}
+.seq-foot button{background:none;border:0;color:#D9DED8;font:inherit;text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+
+/* section titles */
+.sec{padding:64px 0;border-top:1px solid var(--rule)}
+.sec-head{display:flex;justify-content:space-between;align-items:baseline;gap:24px;margin-bottom:32px}
+h2{font-stretch:110%;font-weight:700;font-size:28px;letter-spacing:-.015em}
+.sec-head p{color:var(--ink-soft);max-width:52ch}
+
+/* featured */
+.featured{display:grid;grid-template-columns:7fr 5fr;gap:40px;margin-bottom:48px;align-items:center}
+.shot{background:var(--paper-2);border-radius:6px;padding:28px;display:flex;justify-content:center}
+.phone{width:240px;background:#fff;border-radius:22px;border:7px solid var(--ink);padding:16px 14px;font-size:13px;line-height:1.35}
+.phone h4{font-stretch:110%;font-size:16px;font-weight:700;margin-bottom:2px}
+.phone .sub{color:var(--ink-soft);font-stretch:75%;margin-bottom:12px}
+.set{display:grid;grid-template-columns:22px 1fr 44px 34px;gap:6px;padding:7px 0;border-top:1px solid #E5E8E3;font-stretch:75%;font-weight:560;align-items:center}
+.set .n{color:var(--ink-soft)}
+.set .ok{width:16px;height:16px;border-radius:3px;background:var(--entreno)}
+.set .todo{width:16px;height:16px;border-radius:3px;border:1.5px solid var(--rule)}
+.phone .next{margin-top:12px;background:#EEF4F1;border-radius:6px;padding:9px;color:var(--entreno);font-weight:600}
+.feat-text h3{font-stretch:110%;font-size:34px;font-weight:720;letter-spacing:-.02em;line-height:1.1;margin:10px 0 14px}
+.feat-text p{color:var(--ink-soft);max-width:44ch}
+.feat-text dl{margin-top:20px;display:grid;grid-template-columns:auto 1fr;gap:6px 16px}
+.feat-text dt{font-stretch:75%;font-weight:560;font-size:14px;color:var(--ink-soft);padding-top:2px}
+.feat-text dd{font-size:15px}
+.tag{display:inline-flex;align-items:center;gap:7px;font-stretch:75%;font-weight:600;font-size:14px}
+
+/* index */
+.index{list-style:none;border-top:1px solid var(--ink)}
+.item{display:grid;grid-template-columns:4px minmax(220px,3fr) 1fr 1fr minmax(180px,3fr);gap:20px;padding:20px 0;border-bottom:1px solid var(--rule);align-items:baseline}
+.item[hidden]{display:none}
+.item .bar{align-self:stretch;border-radius:2px;background:var(--c)}
+.item h3{font-size:21px;font-weight:650;line-height:1.2}
+.item h3 a{text-decoration:none}
+.item h3 a:hover{text-decoration:underline;text-underline-offset:4px}
+.item .sum{color:var(--ink-soft);font-size:15px;margin-top:4px}
+.item .ai{font-size:15px}
+.item .ai b{font-stretch:75%;font-weight:600;font-size:14px;color:var(--ink-soft);display:block}
+.status{display:inline-flex;align-items:center;gap:6px}
+.status::before{content:"";width:7px;height:7px;border-radius:50%;border:1.5px solid var(--ink)}
+.status.uso::before{background:var(--ink)}
+.status.proto::before{background:linear-gradient(90deg,var(--ink) 50%,transparent 50%)}
+.idx-head{display:grid;grid-template-columns:4px minmax(220px,3fr) 1fr 1fr minmax(180px,3fr);gap:20px;padding-bottom:10px;color:var(--ink-soft)}
+.empty{padding:28px 0;color:var(--ink-soft)}
+
+/* log */
+.log{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:1px solid var(--ink)}
+.entry{padding:22px 24px 24px 0;border-bottom:1px solid var(--rule)}
+.entry + .entry{padding-left:24px;border-left:1px solid var(--rule)}
+.entry time{color:var(--ink-soft);margin-right:12px}
+.entry .tag{margin-bottom:10px}
+.entry h3{margin-top:10px}
+.entry h3{font-size:19px;font-weight:650;line-height:1.25;margin-bottom:8px}
+.entry p{color:var(--ink-soft);font-size:15px}
+.media{height:150px;border-radius:6px;background:var(--paper-2);margin-bottom:14px;position:relative;overflow:hidden}
+.media.video::after{content:"";position:absolute;left:50%;top:50%;transform:translate(-40%,-50%);border-left:18px solid var(--ink);border-top:11px solid transparent;border-bottom:11px solid transparent}
+.media.audio{display:flex;align-items:center;gap:3px;padding:0 18px}
+.media.audio i{flex:1;background:var(--musica);border-radius:1px}
+
+footer{border-top:1px solid var(--rule);padding-block:32px 48px;display:flex;justify-content:space-between;gap:24px;color:var(--ink-soft);font-size:15px}
+
+@media (max-width:900px){
+  .hero,.featured{grid-template-columns:1fr;gap:36px}
+  .idx-head{display:none}
+  .item{grid-template-columns:4px 1fr;gap:6px 16px}
+  .item > :not(.bar){grid-column:2}
+  .item .bar{grid-row:1 / span 4}
+  .log{grid-template-columns:1fr}
+  .entry + .entry{padding-left:0;border-left:0}
+  .nav{display:none}
+}
+@media (max-width:560px){
+  .seq{padding:16px 12px}
+  .seq-head,.row{grid-template-columns:98px repeat(16,1fr);gap:3px}
+  .row-label{font-size:12.5px;gap:5px;padding-right:4px}
+  .seq-head span:nth-child(n+2){visibility:hidden}
+  .seq-head span.m{visibility:visible}
+  .sec-head{flex-direction:column}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+
+<header class="wrap top">
+  <a class="brand" href="#">Nico López</a>
+  <nav aria-label="Prácticas">
+    <ul class="nav">
+      <li><a href="#instrumentos"><span class="dot" style="background:var(--musica)"></span>Música</a></li>
+      <li><a href="#instrumentos"><span class="dot" style="background:var(--entreno)"></span>Entrenamiento</a></li>
+      <li><a href="#instrumentos"><span class="dot" style="background:var(--taller)"></span>Taller</a></li>
+      <li><a href="#instrumentos"><span class="dot" style="background:var(--codigo)"></span>Código</a></li>
+      <li><a href="#bitacora">Bitácora</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main>
+<section class="wrap hero">
+  <div>
+    <h1>Construyo las herramientas con las que practico.</h1>
+    <p class="lede">Toco la batería hace 15 años, estudio guitarra jazz, me estoy formando como <strong>profesor de musculación</strong> y armo cosas en el taller. Para cada práctica diseño mis propios instrumentos con IA como socio: apps, piezas impresas en 3D, documentos de estudio y rutinas.</p>
+    <a class="contact" href="mailto:hola@example.com">Escribime</a>
+  </div>
+
+  <div>
+    <div class="seq" id="seq">
+      <div class="seq-head" aria-hidden="true" id="seqHead"></div>
+      <div id="rows"></div>
+      <div class="seq-foot">
+        <span id="seqCaption">Últimas 16 semanas de bitácora. Elegí una fila para filtrar.</span>
+        <button type="button" id="clear" hidden>Ver todo</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="instrumentos">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Instrumentos</h2>
+      <p>Lo que construí para practicar mejor. Algunos son software, otros se imprimen o se cuelgan de una ventana.</p>
+    </div>
+
+    <article class="featured" data-p="entreno">
+      <div class="shot" aria-hidden="true">
+        <div class="phone">
+          <h4>Sentadilla trasera</h4>
+          <div class="sub">Semana 6 del bloque de fuerza</div>
+          <div class="set"><span class="n">1</span><span>100 kg × 5</span><span>RIR 3</span><span class="ok"></span></div>
+          <div class="set"><span class="n">2</span><span>105 kg × 5</span><span>RIR 2</span><span class="ok"></span></div>
+          <div class="set"><span class="n">3</span><span>105 kg × 5</span><span>RIR 2</span><span class="todo"></span></div>
+          <div class="set"><span class="n">4</span><span>105 kg × 5</span><span>RIR 1</span><span class="todo"></span></div>
+          <div class="next">Próxima sesión: +2,5 kg si cerrás con RIR ≥ 2</div>
+        </div>
+      </div>
+      <div class="feat-text">
+        <span class="tag"><span class="dot" style="background:var(--entreno)"></span>Entrenamiento</span>
+        <h3><a href="07-publico-instrumento.html" style="text-decoration:none">Libreta de hierro</a></h3>
+        <p>Registro mis sesiones, veo la progresión por ejercicio y recibo la prescripción de la próxima, basada en lo que estudio en el profesorado y en evidencia actual.</p>
+        <dl>
+          <dt>Tipo</dt><dd>App web</dd>
+          <dt>Estado</dt><dd><span class="status uso">En uso</span></dd>
+          <dt>Rol de la IA</dt><dd>Analiza el progreso y propone cargas; las reglas las escribí yo.</dd>
+        </dl>
+      </div>
+    </article>
+
+    <div class="idx-head cond" aria-hidden="true">
+      <span></span><span>Instrumento</span><span>Tipo</span><span>Estado</span><span>Rol de la IA</span>
+    </div>
+    <ul class="index" id="index">
+      <li class="item" data-p="taller" style="--c:var(--taller)">
+        <span class="bar"></span>
+        <div><h3><a href="07-publico-instrumento.html">Cortina enrollable inteligente</a></h3><p class="sum">Motor paso a paso que sube y baja la cortina de cadena, con homing sin finales de carrera.</p></div>
+        <span class="cond">Hardware</span>
+        <span class="cond status uso">En uso</span>
+        <p class="ai">Ayudó a calibrar StallGuard y a depurar el firmware del ESP32.</p>
+      </li>
+      <li class="item" data-p="musica" style="--c:var(--musica)">
+        <span class="bar"></span>
+        <div><h3><a href="#">Generador de voicings</a></h3><p class="sum">Tríadas y sus inversiones por grupo de cuerdas, y séptimas ordenadas por círculo de quintas, en PDF y MusicXML.</p></div>
+        <span class="cond">Documento</span>
+        <span class="cond status uso">En uso</span>
+        <p class="ai">Genera las partituras; yo defino qué voicings estudiar.</p>
+      </li>
+      <li class="item" data-p="musica" style="--c:var(--musica)">
+        <span class="bar"></span>
+        <div><h3><a href="#">Rutina de guitarra de 60 minutos</a></h3><p class="sum">Bloques de técnica, lectura con Leavitt, armonía y repertorio, con temporizador guiado.</p></div>
+        <span class="cond">Rutina</span>
+        <span class="cond status proto">Prototipo</span>
+        <p class="ai">Armó la estructura a partir de mis objetivos y la ajusta semana a semana.</p>
+      </li>
+      <li class="item" data-p="taller" style="--c:var(--taller)">
+        <span class="bar"></span>
+        <div><h3><a href="#">Soportes modulares para biblioteca</a></h3><p class="sum">Dos L espejadas que se corren para sumar o sacar libros, impresas en PLA.</p></div>
+        <span class="cond">Hardware</span>
+        <span class="cond status">En construcción</span>
+        <p class="ai">Modelado paramétrico con manifold3d.</p>
+      </li>
+      <li class="item" data-p="codigo" style="--c:var(--codigo)">
+        <span class="bar"></span>
+        <div><h3><a href="#">PersonalCMS</a></h3><p class="sum">Este sitio. Una plataforma abierta para mostrar prácticas e instrumentos.</p></div>
+        <span class="cond">App web</span>
+        <span class="cond status proto">Prototipo</span>
+        <p class="ai">Diseño, mockups y documentación iterados con Claude.</p>
+      </li>
+    </ul>
+    <p class="empty" id="empty" hidden>Todavía no publiqué instrumentos de esta práctica.</p>
+  </div>
+</section>
+
+<section class="sec" id="bitacora">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Bitácora</h2>
+      <p>El proceso, en orden: lo que pruebo, lo que sale mal y lo que cambio.</p>
+    </div>
+    <div class="log">
+      <article class="entry" data-p="musica">
+        <div class="media audio" aria-hidden="true" id="wave"></div>
+        <time class="cond" datetime="2026-11-03">3 de noviembre</time><span class="tag"><span class="dot" style="background:var(--musica)"></span>Música</span>
+        <h3>Primera vez cantando y tocando en la misma toma</h3>
+        <p>Grabé un standard lento. La voz todavía se esconde detrás de la guitarra.</p>
+      </article>
+      <article class="entry" data-p="taller">
+        <div class="media video" aria-hidden="true" style="background:linear-gradient(160deg,#D6DCE8,#C3CBDA)"></div>
+        <time class="cond" datetime="2026-10-28">28 de octubre</time><span class="tag"><span class="dot" style="background:var(--taller)"></span>Taller</span>
+        <h3>La cortina ya encuentra su posición sola</h3>
+        <p>StallGuard detecta el tope y recalibra al encender. Adiós finales de carrera.</p>
+      </article>
+      <article class="entry" data-p="entreno">
+        <div class="media" aria-hidden="true" style="background:linear-gradient(160deg,#D3E0D9,#C1D2C9)"></div>
+        <time class="cond" datetime="2026-10-21">21 de octubre</time><span class="tag"><span class="dot" style="background:var(--entreno)"></span>Entrenamiento</span>
+        <h3>Qué cambié en la Libreta después de dar mi primera clase</h3>
+        <p>Los alumnos no registran RIR. Ahora la app pregunta con una escala visual.</p>
+      </article>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="wrap">
+  <span>Hecho con PersonalCMS</span>
+  <span>Córdoba, Argentina</span>
+</footer>
+
+<script>
+const practices = [
+  {id:'musica',  name:'Música',        weeks:[2,1,2,3,2,0,1,2,3,3,2,1,2,3,2,3]},
+  {id:'entreno', name:'Entrenamiento', weeks:[1,2,2,1,2,2,3,2,2,3,3,2,3,2,3,3]},
+  {id:'taller',  name:'Taller',        weeks:[0,0,1,3,3,2,0,0,1,0,2,3,3,1,0,1]},
+  {id:'codigo',  name:'Código',        weeks:[1,1,0,1,2,1,1,0,0,1,1,2,1,2,2,1]},
+];
+// semanas: 16 terminando en la actual
+const head = document.getElementById('seqHead');
+head.innerHTML = '<span></span>';
+const end = new Date(2026,10,5);
+let lastMonth = null;
+for(let i=15;i>=0;i--){
+  const d = new Date(end); d.setDate(d.getDate()-i*7);
+  const m = d.toLocaleDateString('es-AR',{month:'short'}).replace('.','');
+  const s = document.createElement('span');
+  if(m!==lastMonth){s.textContent=m; s.className='m'; lastMonth=m}
+  head.appendChild(s);
+}
+const rows = document.getElementById('rows');
+practices.forEach(p=>{
+  const total = p.weeks.reduce((a,b)=>a+b,0);
+  const b = document.createElement('button');
+  b.type='button'; b.className='row'; b.dataset.p=p.id;
+  b.style.setProperty('--c',`var(--${p.id})`);
+  b.setAttribute('aria-pressed','false');
+  b.setAttribute('aria-label',`${p.name}: ${total} entradas en 16 semanas. Filtrar instrumentos`);
+  b.innerHTML = `<span class="row-label"><span class="dot" style="background:var(--${p.id})"></span>${p.name}</span>` +
+    p.weeks.map(v=>`<span class="cell wait on-${v}" title="${v} entradas"></span>`).join('');
+  rows.appendChild(b);
+});
+
+// playhead: una sola pasada al cargar
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const cols = i => [...document.querySelectorAll('.row')].map(r=>r.children[i+1]);
+if(reduce){document.querySelectorAll('.cell').forEach(c=>c.classList.remove('wait'))}
+else{
+  let i=0;
+  const tick=()=>{
+    if(i>0) cols(i-1).forEach(c=>c.classList.remove('playhead'));
+    if(i<16){cols(i).forEach(c=>{c.classList.remove('wait');c.classList.add('playhead')}); i++; setTimeout(tick,110)}
+  };
+  setTimeout(tick,350);
+}
+
+// filtro
+const seq=document.getElementById('seq'), clear=document.getElementById('clear'), empty=document.getElementById('empty');
+function filter(id){
+  document.querySelectorAll('.row').forEach(r=>r.setAttribute('aria-pressed', String(r.dataset.p===id)));
+  seq.classList.toggle('filtering', !!id);
+  clear.hidden = !id;
+  let shown=0;
+  document.querySelectorAll('#index .item, .featured').forEach(el=>{
+    const show = !id || el.dataset.p===id;
+    el.hidden = !show; if(show && el.classList.contains('item')) shown++;
+  });
+  empty.hidden = shown>0;
+}
+rows.addEventListener('click',e=>{
+  const r=e.target.closest('.row'); if(!r) return;
+  filter(r.getAttribute('aria-pressed')==='true'?null:r.dataset.p);
+  if(r.getAttribute('aria-pressed')==='true') document.getElementById('instrumentos').scrollIntoView();
+});
+clear.addEventListener('click',()=>filter(null));
+
+// forma de onda decorativa
+const wave=document.getElementById('wave');
+for(let i=0;i<48;i++){const s=document.createElement('i');s.style.height=(12+Math.abs(Math.sin(i*.55)*60)+(i%5)*6)+'px';wave.appendChild(s)}
+</script>
+</body>
+</html>

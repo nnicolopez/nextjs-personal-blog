@@ -2,13 +2,13 @@
 
 import { and, eq } from "drizzle-orm";
 import { cookies } from "next/headers";
-import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { auth, requireUserEmail, signOut } from "@/auth";
 import { db, pages, sections, users, SECTION_TYPES, TEMPLATES, type Template } from "@/db";
 import { getAccount, requireAccount } from "@/lib/data";
 import { getDictionary, type Lang } from "@/lib/i18n";
 import { isThemeId, THEME_COOKIE } from "@/themes";
+import { fail, refresh, text, type FormState } from "@/lib/action-helpers";
 import { isUniqueViolation, LIMITS, normalizeUrl, normalizeUsername, usernameProblem } from "@/lib/validation";
 
 /**
@@ -16,23 +16,7 @@ import { isUniqueViolation, LIMITS, normalizeUrl, normalizeUsername, usernamePro
  * and scopes its queries to that account's rows.
  */
 
-export type FormState = { ok?: boolean; errors?: Record<string, string>; values?: Record<string, string> };
-
-const text = (formData: FormData, key: string) => String(formData.get(key) ?? "").trim();
-
-// React resets a form after its action runs; sending the submitted values
-// back lets the form show them again next to the errors.
-function fail(errors: Record<string, string>, formData: FormData): FormState {
-  const values: Record<string, string> = {};
-  formData.forEach((value, key) => {
-    if (typeof value === "string" && !key.startsWith("$")) values[key] = value;
-  });
-  return { errors, values };
-}
-
-function refresh() {
-  revalidatePath("/", "layout");
-}
+export type { FormState } from "@/lib/action-helpers";
 
 export async function signOutAction() {
   await signOut({ redirectTo: "/login" });
@@ -100,6 +84,7 @@ export async function saveProfileAction(_prev: FormState, formData: FormData): P
   const fullName = text(formData, "fullName");
   const username = normalizeUsername(text(formData, "username"));
   const bio = text(formData, "bio");
+  const headline = text(formData, "headline");
 
   const errors: Record<string, string> = {};
   if (!fullName) errors.fullName = t.errors.fullNameRequired;
@@ -107,12 +92,13 @@ export async function saveProfileAction(_prev: FormState, formData: FormData): P
   const problem = usernameProblem(username);
   if (problem) errors.username = problem === "reserved" ? t.errors.usernameReserved : t.errors.usernameFormat;
   if (bio.length > LIMITS.bio) errors.bio = t.errors.tooLong;
+  if (headline.length > LIMITS.headline) errors.headline = t.errors.tooLong;
   if (Object.keys(errors).length) return fail(errors, formData);
 
   try {
     await db.batch([
       db.update(users).set({ username }).where(eq(users.id, account.user.id)),
-      db.update(pages).set({ fullName, bio }).where(eq(pages.id, account.page.id)),
+      db.update(pages).set({ fullName, bio, headline }).where(eq(pages.id, account.page.id)),
     ]);
   } catch (error) {
     if (isUniqueViolation(error)) return fail({ username: t.errors.usernameTaken }, formData);

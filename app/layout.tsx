@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Work_Sans } from "next/font/google";
+import { Archivo, Work_Sans } from "next/font/google";
 import { ColorSchemeScript, mantineHtmlProps } from "@mantine/core";
 import { getThemeId } from "@/lib/appearance";
 import { getLang } from "@/lib/i18n";
@@ -14,6 +14,14 @@ const workSans = Work_Sans({
   variable: "--font-work-sans",
 });
 
+// Practices template (design v2): one family, its width axis does the expressive work
+const archivo = Archivo({
+  subsets: ["latin"],
+  axes: ["wdth"],
+  display: "swap",
+  variable: "--font-archivo",
+});
+
 export const metadata: Metadata = {
   title: "PersonalCMS",
   // Private while in development: keep it out of search engines
@@ -23,7 +31,7 @@ export const metadata: Metadata = {
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const [lang, themeId] = await Promise.all([getLang(), getThemeId()]);
   return (
-    <html lang={lang} className={workSans.variable} {...mantineHtmlProps}>
+    <html lang={lang} className={`${workSans.variable} ${archivo.variable}`} {...mantineHtmlProps}>
       <head>
         <ColorSchemeScript defaultColorScheme="dark" />
       </head>

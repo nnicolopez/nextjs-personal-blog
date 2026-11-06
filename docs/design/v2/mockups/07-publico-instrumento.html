@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cortina enrollable inteligente — Nico López</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#ECEEE9; --paper-2:#E1E4DE; --ink:#1C2629; --ink-soft:#55615F; --rule:#C7CCC4;
+  --musica:#A97C1F; --entreno:#2E6B57; --taller:#2F57C4; --codigo:#8B3D8F;
+  --c:var(--taller);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Archivo',system-ui,sans-serif;font-size:17px;line-height:1.55;color:var(--ink);background:var(--paper);-webkit-font-smoothing:antialiased}
+a{color:inherit;text-underline-offset:4px}
+:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+.wrap{max-width:1200px;margin:0 auto;padding:0 24px}
+.cond{font-stretch:75%;font-weight:560;font-size:14px}
+.dot{width:8px;height:8px;border-radius:50%;display:inline-block}
+.tag{display:inline-flex;align-items:center;gap:7px;font-stretch:75%;font-weight:600;font-size:14px}
+
+.top{display:flex;align-items:baseline;justify-content:space-between;padding-block:28px;border-bottom:1px solid var(--rule)}
+.brand{font-stretch:118%;font-weight:750;font-size:21px;text-decoration:none}
+.back{font-stretch:75%;font-weight:560;font-size:15px}
+
+.head{display:grid;grid-template-columns:7fr 4fr;gap:56px;padding-block:56px 40px;align-items:end}
+h1{font-stretch:118%;font-weight:750;font-size:clamp(36px,5vw,60px);line-height:1.03;letter-spacing:-.025em;margin-top:14px;max-width:14ch}
+.summary{margin-top:20px;font-size:20px;line-height:1.45;max-width:40ch;color:var(--ink-soft)}
+.facts{display:grid;grid-template-columns:auto 1fr;gap:10px 20px;border-top:3px solid var(--c);padding-top:18px}
+.facts dt{font-stretch:75%;font-weight:560;font-size:14px;color:var(--ink-soft);padding-top:2px}
+.facts dd{font-size:15px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chips span{font-stretch:75%;font-weight:600;font-size:14px;background:var(--paper-2);padding:2px 9px;border-radius:3px}
+.actions{display:flex;gap:12px;margin-top:22px;flex-wrap:wrap}
+.btn{display:inline-block;padding:11px 18px;border-radius:4px;font-weight:600;font-size:15px;text-decoration:none;border:1.5px solid var(--ink)}
+.btn.primary{background:var(--ink);color:var(--paper)}
+
+.demo{aspect-ratio:16/8;border-radius:6px;background:linear-gradient(170deg,#D7DEEC 0%,#BCC6DA 100%);position:relative;overflow:hidden}
+.demo .window{position:absolute;left:12%;right:12%;top:10%;bottom:0;background:#F3F5F8;border:10px solid #8E99AE;border-bottom:0}
+.demo .blind{position:absolute;left:0;right:0;top:0;height:62%;background:repeating-linear-gradient(180deg,#E8DCC4 0 22px,#DDD0B5 22px 23px);animation:roll 6s ease-in-out infinite alternate}
+.demo .play{position:absolute;left:24px;bottom:22px;display:flex;align-items:center;gap:12px;background:var(--ink);color:var(--paper);padding:10px 16px 10px 12px;border-radius:4px;font-weight:600;font-size:15px;border:0;cursor:pointer}
+.demo .play::before{content:"";border-left:12px solid var(--paper);border-top:7px solid transparent;border-bottom:7px solid transparent}
+@keyframes roll{0%,15%{height:62%}85%,100%{height:12%}}
+
+.body{display:grid;grid-template-columns:3fr 8fr;gap:56px;padding-block:64px;border-top:1px solid var(--rule);margin-top:56px}
+.body h2{font-stretch:110%;font-weight:700;font-size:24px;letter-spacing:-.01em;line-height:1.2}
+.prose p{max-width:62ch;margin-bottom:16px}
+
+.split{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--ink)}
+.split > div{padding:18px 24px 6px 0}
+.split > div + div{padding-left:24px;border-left:1px solid var(--rule)}
+.split h3{font-stretch:75%;font-weight:600;font-size:15px;margin-bottom:10px;color:var(--ink-soft)}
+.split li{margin:0 0 10px 18px;font-size:16px}
+
+.chain{display:flex;align-items:stretch;gap:0;flex-wrap:wrap}
+.chain li{list-style:none;flex:1;min-width:130px;padding:14px 16px;background:var(--paper-2);position:relative}
+.chain li + li{border-left:2px solid var(--paper)}
+.chain b{display:block;font-size:16px;font-weight:650}
+.chain span{font-size:14px;color:var(--ink-soft)}
+.chain li:first-child{border-radius:6px 0 0 6px}.chain li:last-child{border-radius:0 6px 6px 0}
+
+.gallery{display:grid;grid-template-columns:2fr 1fr 1fr;gap:12px}
+.gallery figure{border-radius:6px;background:var(--paper-2);aspect-ratio:4/3;display:flex;align-items:flex-end;padding:12px;font-stretch:75%;font-size:14px;color:var(--ink-soft)}
+.gallery figure:first-child{grid-row:span 2;aspect-ratio:auto}
+
+.timeline{list-style:none;border-left:2px solid var(--c);margin-left:5px}
+.timeline li{position:relative;padding:0 0 24px 26px}
+.timeline li::before{content:"";position:absolute;left:-7px;top:6px;width:12px;height:12px;border-radius:50%;background:var(--paper);border:2px solid var(--c)}
+.timeline li:last-child::before{background:var(--c)}
+.timeline time{color:var(--ink-soft)}
+.timeline h3{font-size:18px;font-weight:650;margin:2px 0 4px}
+.timeline p{font-size:15px;color:var(--ink-soft);max-width:58ch}
+
+.next{display:flex;justify-content:space-between;gap:24px;padding-block:32px 56px;border-top:1px solid var(--rule)}
+.next a{text-decoration:none}
+.next b{display:block;font-size:21px;font-weight:650}
+.next a:hover b{text-decoration:underline}
+
+@media (max-width:900px){
+  .head,.body{grid-template-columns:1fr;gap:28px}
+  .split{grid-template-columns:1fr}
+  .split > div + div{padding-left:0;border-left:0;border-top:1px solid var(--rule)}
+  .gallery{grid-template-columns:1fr 1fr}
+  .gallery figure:first-child{grid-column:span 2;grid-row:auto;aspect-ratio:16/9}
+  .demo{aspect-ratio:4/3}
+}
+@media (prefers-reduced-motion:reduce){.demo .blind{animation:none;height:40%}}
+</style>
+</head>
+<body>
+<header class="wrap top">
+  <a class="brand" href="06-publico-home.html">Nico López</a>
+  <a class="back" href="06-publico-home.html#instrumentos">Todos los instrumentos</a>
+</header>
+
+<main class="wrap">
+  <section class="head">
+    <div>
+      <span class="tag"><span class="dot" style="background:var(--taller)"></span>Taller y domótica</span>
+      <h1>Cortina enrollable inteligente</h1>
+      <p class="summary">Un motor paso a paso tira de la cadena de una cortina común. Sube con el sol, baja de noche y sabe dónde está sin sensores extra.</p>
+    </div>
+    <div>
+      <dl class="facts">
+        <dt>Tipo</dt><dd>Hardware</dd>
+        <dt>Estado</dt><dd>En uso desde octubre de 2026</dd>
+        <dt>Materiales</dt><dd class="chips"><span>ESP32</span><span>NEMA 17</span><span>TMC2209</span><span>PETG impreso</span></dd>
+        <dt>Rol de la IA</dt><dd>Calibración de StallGuard y depuración del firmware</dd>
+      </dl>
+      <div class="actions">
+        <a class="btn primary" href="#">Ver el video</a>
+        <a class="btn" href="#">Descargar piezas STL</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="demo" role="img" aria-label="Demostración: la cortina sube y baja sola">
+    <div class="window"><div class="blind"></div></div>
+    <button class="play" type="button">Ver demostración de 40 segundos</button>
+  </div>
+
+  <section class="body">
+    <h2>Qué resuelve</h2>
+    <div class="prose">
+      <p>Quería despertarme con luz natural sin cambiar la cortina de cadena que ya tenía. Las soluciones comerciales reemplazan todo el sistema; esta se monta al lado y tira de la misma cadena.</p>
+      <p>El problema difícil fue saber la posición. En vez de finales de carrera, el driver detecta el aumento de carga cuando la cortina llega al tope y recalibra solo al encender.</p>
+    </div>
+  </section>
+
+  <section class="body" style="margin-top:0">
+    <h2>Cómo intervino la IA</h2>
+    <div class="split">
+      <div>
+        <h3>Lo que hice yo</h3>
+        <ul>
+          <li>Elegir la arquitectura de tirar de la cadena</li>
+          <li>Diseñar e imprimir el soporte y la polea</li>
+          <li>Medir corrientes y probar en la ventana real</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Lo que hizo la IA</h3>
+        <ul>
+          <li>Proponer valores iniciales de StallGuard y cómo afinarlos</li>
+          <li>Escribir y depurar el firmware del ESP32 conmigo</li>
+          <li>Resolver errores de booleanas en el modelo 3D</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="body" style="margin-top:0">
+    <h2>Cómo funciona</h2>
+    <ol class="chain" aria-label="Cadena de control, de la orden al movimiento">
+      <li><b>ESP32</b><span>Horario y Wi-Fi</span></li>
+      <li><b>TMC2209</b><span>Driver silencioso con detección de carga</span></li>
+      <li><b>NEMA 17</b><span>Motor paso a paso</span></li>
+      <li><b>Polea impresa</b><span>Engancha la cadena original</span></li>
+    </ol>
+  </section>
+
+  <section class="body" style="margin-top:0">
+    <h2>Capturas</h2>
+    <div class="gallery">
+      <figure>Montaje final junto a la ventana</figure>
+      <figure>Polea en PETG</figure>
+      <figure>Driver y ESP32</figure>
+      <figure>Soporte en el slicer</figure>
+      <figure>Prueba de carga</figure>
+    </div>
+  </section>
+
+  <section class="body" style="margin-top:0">
+    <h2>Construcción</h2>
+    <ol class="timeline">
+      <li><time class="cond" datetime="2026-08-30">30 de agosto</time><h3>Primera polea, demasiado chica</h3><p>Patinaba la cadena. Pasé a 14 dientes y paredes más gruesas.</p></li>
+      <li><time class="cond" datetime="2026-09-18">18 de septiembre</time><h3>El motor se calentaba en reposo</h3><p>Bajé la corriente de mantenimiento en el driver; ya no hace falta mantener torque.</p></li>
+      <li><time class="cond" datetime="2026-10-28">28 de octubre</time><h3>La cortina ya encuentra su posición sola</h3><p>StallGuard detecta el tope y recalibra al encender.</p></li>
+    </ol>
+  </section>
+
+  <nav class="next" aria-label="Más instrumentos">
+    <a href="#"><span class="cond">Anterior</span><b>Soportes modulares para biblioteca</b></a>
+    <a href="#" style="text-align:right"><span class="cond">Siguiente</span><b>Libreta de hierro</b></a>
+  </nav>
+</main>
+</body>
+</html>
