@@ -118,12 +118,12 @@
 }
 
 .h1 {
-  font-stretch: 118%;
+  font-stretch: 108%;
   font-weight: 760;
-  font-size: clamp(40px, 6.4cqi, 80px);
-  line-height: 0.98;
+  font-size: clamp(40px, 5.6cqi, 72px);
+  line-height: 1;
   letter-spacing: -0.03em;
-  max-width: 15ch;
+  max-width: 17ch;
   margin: 0;
   text-wrap: balance;
 }

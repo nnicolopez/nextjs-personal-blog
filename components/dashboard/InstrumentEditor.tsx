@@ -139,8 +139,7 @@ const InstrumentEditor = ({ t, labels, initial, practices, buildLog, fullName, b
               name="slug"
               value={draft.slug}
               onChange={(e) => { setSlugTouched(true); set("slug", e.currentTarget.value.toLowerCase()); }}
-              leftSection={<Text fz={13} c="dimmed" pl={10} style={{ whiteSpace: "nowrap" }}>{host}{basePath}/</Text>}
-              leftSectionWidth={Math.min(220, (host.length + basePath.length + 1) * 7.4 + 14)}
+              description={`${host}${basePath}/${draft.slug || "…"}`}
               maxLength={60}
               error={err.slug}
             />
