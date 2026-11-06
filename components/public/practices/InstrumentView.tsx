@@ -1,5 +1,6 @@
 import { embedUrl, slugify } from "@/lib/practices";
 import { formatDay } from "./format";
+import Media from "./Media";
 import type { PracticesLabels, PublicEntry, PublicInstrument, PublicPractice } from "./types";
 import s from "./practices.module.css";
 
@@ -68,6 +69,7 @@ const InstrumentView = ({ fullName, basePath, instrument: i, practice, buildLog,
               <time className={s.cond} dateTime={entry.date}>{formatDay(entry.date, labels.lang)}</time>
               <h3>{entry.title}</h3>
               {entry.body && <p>{entry.body}</p>}
+              {entry.mediaUrl && <Media kind={entry.kind} url={entry.mediaUrl} title={entry.title} className={s.timelineMedia} />}
             </li>
           ))}
         </ol>
